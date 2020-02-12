@@ -1,0 +1,11 @@
+export const USER_LOGIN_LOADING = 'USER_LOGIN_LOADING'
+export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
+export const USER_LOGIN_ERROR = 'USER_LOGIN_ERROR'
+export const USER_LOGOUT = 'USER_LOGOUT'
+export const USER_REGIS = 'USER_REGIS'
+export const USER_REGIS_SUCCESS = 'USER_REGIS_SUCCESS'
+
+//--------------homepage----------------
+export const USER_HOME_LOADING = 'USER_HOME_LOADING'
+export const USER_HOME_SUCCESS = 'USER_HOME_SUCCESS'
+export const USER_HOME_ERROR = 'USER_HOME_ERROR'

@@ -1,0 +1,47 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.header-container{
+    /* border: 2px yellow solid; */
+    margin-top: 10px;
+    justify-content: center;
+    padding: 5px 20px;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.logo{
+    font-weight: 700;
+    font-size: 30px;
+    position: absolute;
+}
+.menu-kiri{
+    /* border: 2px yellow solid; */
+    display: flex;
+    margin-right: auto;
+    padding-top: 9px;
+}
+
+.menukiri{
+    font-weight: 500;
+    margin: 0px 20px;
+    transition: 200ms;
+    color: black;
+}
+
+.menukiri:hover{
+    cursor: pointer;
+    text-shadow: 2px 2px 3px gray;
+}
+
+.menu-kanan{
+    /* border: 2px yellow solid; */
+    display: flex;
+    margin-left: 0%;
+    padding-top: 0px;
+    padding-bottom: 5px;
+    font-weight: 500;
+}

@@ -1,0 +1,20 @@
+
+.boxbesar{
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: #f5f2ed;
+    padding: 30px 0px 50px 0px;
+}
+.gambar1{
+    box-shadow: 5px 5px 10px gray;
+}
+.koneng{
+    border: greenyellow 2px solid;
+}
+
+.boxbesar2{
+    margin: 50px 0px 0px 0px;
+}
