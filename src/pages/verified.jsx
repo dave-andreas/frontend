@@ -8,6 +8,7 @@ function Verified (props) {
     const dispatch = useDispatch()
     const regis = useSelector(state=>state.auth.regis)
     const email = useSelector(state=>state.auth.email)
+    console.log(email)
     
     useEffect(()=>{
         const params = queryString.parse(props.location.search)

@@ -44,7 +44,7 @@ function Header () {
                         <div className='mr-2' style={{fontSize:'35px',marginTop:'-10px',fontWeight:'lighter'}}>
                             |
                         </div>
-                        <Link to={''} style={{textDecoration:'none'}}>
+                        <Link to={'/'} style={{textDecoration:'none'}}>
                             <div onClick={logoutclick} className='menukiri mt-2 mx-2' style={{fontWeight:'500'}}>LOGOUT</div>
                         </Link>
                     </div>
