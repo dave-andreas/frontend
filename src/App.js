@@ -6,7 +6,10 @@ import Register from './pages/register'
 import Waitverif from './pages/waitverif'
 import Verified from './pages/verified'
 import AdminHome from './pages/admin/admin-home'
+import AdmModels from './pages/admin/admin-models'
+import MyComponent from './pages/admin/slide'
 import Profile from './pages/user/user-profile'
+import Models from './pages/models'
 import {Switch,Route} from 'react-router-dom'
 import {getuser} from './redux/action'
 import {useDispatch,useSelector} from 'react-redux'
@@ -35,6 +38,7 @@ function App () {
           <Route path={'/login'} exact component={Login}/>
           <Route path={'/verified'} exact component={Verified}/>
           <Route path={'/profile'} exact component={Profile}/>
+          <Route path={'/models'} exact component={Models}/>
         </Switch>
       </div>
     );
@@ -45,6 +49,9 @@ function App () {
           <Route path={'/'} exact component={Home}/>
           <Route path={'/admin'} exact component={AdminHome}/>
           <Route path={'/login'} exact component={Login}/>
+          <Route path={'/models'} exact component={Models}/>
+          <Route path={'/admmodels'} exact component={AdmModels}/>
+          <Route path={'/slide'} exact component={MyComponent}/>
         </Switch>
       </div>
     );
@@ -57,6 +64,7 @@ function App () {
           <Route path={'/register'} exact component={Register}/>
           <Route path={'/waitverif'} exact component={Waitverif}/>
           <Route path={'/verified'} exact component={Verified}/>
+          <Route path={'/models'} exact component={Models}/>
         </Switch>
       </div>
     );

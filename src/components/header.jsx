@@ -24,9 +24,11 @@ function Header () {
                                 HOME
                             </div>
                         </Link>
-                        <div className='menukiri'>
-                            MODELS
-                        </div>
+                        <Link to={'/models'} style={{textDecoration:'none'}}>
+                            <div className='menukiri'>
+                                MODELS
+                            </div>
+                        </Link>
                         <div className='menukiri'>
                             FABRICS
                         </div>

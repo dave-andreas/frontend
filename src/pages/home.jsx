@@ -1,6 +1,7 @@
 import React from 'react';
 import './home.css'
 import Header from '../components/header'
+import Footer from '../components/footer'
 import Cardmodel from '../components/cardmodel'
 import Cardfabric from '../components/cardfabric'
 import img1 from '../gambar/e9de9cf2b79d1946eea448060305a7e4.jpg'
@@ -46,6 +47,7 @@ function Home () {
                 </div>
                 <Cardfabric/>
             </center>
+            <Footer/>
         </div>
     )
 }
