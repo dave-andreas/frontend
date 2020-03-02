@@ -6,6 +6,7 @@ import {logout} from '../redux/action'
 
 function Header () {
     const username = useSelector(state=>state.auth.username)
+    const role = useSelector(state=>state.auth.role)
     const dispatch = useDispatch()
     const [a] = useState(localStorage.getItem('id'))
 
@@ -38,7 +39,7 @@ function Header () {
                         {username}
                     </div>
                     <div className='menu-kanan'>
-                        <Link to={'/profile'} style={{textDecoration:'none'}}>
+                        <Link to={role === 'admin' ? '/admmodels' : '/profile'} style={{textDecoration:'none'}}>
                             <div className='menukiri mt-2' style={{fontWeight:'bold'}}>
                                 Henloo {username} !
                             </div>
