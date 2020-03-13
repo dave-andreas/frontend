@@ -30,16 +30,18 @@ function Header () {
                                 MODELS
                             </div>
                         </Link>
-                        <div className='menukiri'>
-                            FABRICS
-                        </div>
+                        <Link to={role === 'admin' ? '/' : '/'} style={{textDecoration:'none'}}>
+                            <div className='menukiri'>
+                                FABRICS
+                            </div>
+                        </Link>
                     </div>
                     <div className='logo'>
                         jAHiTiN.
                         {username}
                     </div>
                     <div className='menu-kanan'>
-                        <Link to={role === 'admin' ? '/admmodels' : '/profile'} style={{textDecoration:'none'}}>
+                        <Link to={role === 'admin' ? '/main' : '/profile'} style={{textDecoration:'none'}}>
                             <div className='menukiri mt-2' style={{fontWeight:'bold'}}>
                                 Henloo {username} !
                             </div>

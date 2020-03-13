@@ -39,7 +39,7 @@
 // export default MyComponent;
 
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';// useTheme u/ corsl
+import { makeStyles,useTheme } from '@material-ui/core/styles';// useTheme u/ corsl
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -49,8 +49,11 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {IconButton} from '@material-ui/core'
 import SwipeableViews from 'react-swipeable-views';// u/ corsl
-import {Modal, ModalBody} from 'reactstrap'
-import { useState } from 'react';
+import { Modal,ModalBody,CustomInput,Table } from 'reactstrap'
+import { useState,useEffect,useRef } from 'react';
+import Axios from 'axios';
+import { apiurl } from '../../helper/apiurl';
+import {Redirect,Link} from 'react-router-dom'
 // sisahnya akal2an super dari material developer
 
 const tutorialSteps = [
@@ -112,6 +115,13 @@ function SwipeableTextMobileStepper() {
   const [open,setopen] = useState (false)
   const [modal,setmodal] = useState (false)
 
+  var datas = [
+    {bahanid:1,path:'ada'},
+    {bahanid:1,path:'apa'},
+    {bahanid:1,path:'dengan'},
+    {bahanid:1,path:'cinta'},
+  ]
+
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
@@ -124,10 +134,184 @@ function SwipeableTextMobileStepper() {
     setActiveStep(step);
   };
 
+  const maut = () => {
+    Axios.post(`${apiurl}/admin/coba`, datas)
+    .then(res=>{
+      console.log(res.data)
+    }).catch(err=>{
+      console.log(err)
+    })
+  }
+
+  // ====================================== upload ======================================
+
+  const [addimagefile,setimageadd]=useState({
+    // addImageFileName:'pilih foto..',
+    // addImageFile:undefined,
+  })
+  const [data,setdata]=useState(null)
+  const [datainput]=useState({
+    userid:useRef()
+  })
+
+  // useEffect(()=>{
+  //   const fetchdata= async()=>{
+  //     try {
+  //       const fahkran=await Axios.get(`${apiurl}product/gettrans`)
+  //       // datainput.userid.current.focus()
+  //       setdata(fahkran.data)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   fetchdata()
+  // },[])
+
+  const adddata=()=>{
+    var formdata=new FormData()
+    console.log(datainput)
+    console.log(datainput.userid.current.value)
+    const {userid}=datainput
+    const data={
+      userid:userid.current.value,
+    }
+    
+    // const token=localStorage.getItem('token')
+    // var Headers={
+    //   headers:
+    //   {
+    //     'Content-Type':'multipart/form-data',
+    //     'Authorization':`Bearer ${token}`
+    //   },
+    // }
+
+    formdata.append('image',addimagefile.addImageFile)
+    formdata.append('data',JSON.stringify(data))
+    Axios.post(`${apiurl}/admin/upload`,formdata,{
+      headers:{
+        'Content-Type':'multipart/form-data',
+        // 'Authorization':`Bearer ${token}`
+      },
+    })
+    .then((res)=>{
+      setdata(res.data)
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+
+  const mtfckr = () => {
+    console.log(addimagefile)
+    const formdata = new FormData()
+    formdata.append('image', addimagefile.addImageFile)
+    // formdata.append('name', 'apalah')
+    formdata.append('bahanid', 333)
+    Axios.post(`${apiurl}/admin/upload`,formdata,
+    {
+      headers:{
+        'Content-Type':'multipart/form-data'
+      },
+    })
+    .then(res=>{
+      console.log(res)
+    }).catch(err=>{
+      console.log(err)
+    })
+  }
+
+  const onAddImageFileChange=(event)=>{
+    // console.log(document.getElementById('addImagePost').files[0])
+    console.log(event.target.files[0])
+    var file=event.target.files[0]
+    if(file){
+      setimageadd({...addimagefile,addImageFile:event.target.files[0]})
+    }else{
+      setimageadd({...addimagefile,addImageFileName:'pilih foto',addImageFile:undefined})
+    }
+  }
+
+  // const renderdata=()=>{
+  //   if(data===null){
+  //     return (
+  //       <tr>
+  //         <td>loading...</td>
+  //       </tr>
+  //     )
+  //   }else if(data.length===0){
+  //     return(
+  //       <tr>
+  //         <td>tidak ada data...</td>
+  //       </tr>
+  //     )
+  //   }else{
+  //     return data.map((val,index)=>{
+  //       return (
+  //         <tr key={index}>
+  //           <td>{index+1}</td>
+  //           <td>{val.userid}</td>
+  //           <td>{val.status}</td>
+  //           <td>{val.tanggal}</td>
+  //           <td><img src={`${apiurl+val.paymentimg}`} alt={val.image} height='100px'/></td>
+  //         </tr>
+  //       )
+  //     })
+  //   }
+  // }
+
+  const [bool,setbool] = useState(false)
+
+  const [direc,setdirec] = useState(false)
+
+  if(direc){
+    return(
+      <Redirect to={{pathname:'/coba', state:datas}} />
+    )
+  }
   return (
     <div>
-        <div className='btn btn-primary' onClick={()=>setopen(!open)}>Klik</div>
-        <div className='btn btn-primary' onClick={()=>setmodal(!modal)}>Modal</div>
+        <div className='btn btn-primary' onClick={()=>setopen(!open)} style={{margin:5}}>Klik</div>
+        <div className='btn btn-danger' onClick={()=>setmodal(!modal)} style={{margin:5}}>Modal</div>
+        <Button variant='contained' color='default' onClick={()=>maut()} style={{margin:5}} size='small'>Tombol maut</Button>
+        <Button variant='contained' color='primary' style={{margin:5}}>apalahitu</Button>
+        <Button variant={bool?'contained':'outlined'} color='primary' onClick={()=>setbool(!bool)} size='small'>maut</Button>
+        <Button variant='text' onClick={()=>setdirec(!direc)}>passing state</Button>
+        <Link to={{pathname:'/coba',id:3}}>
+          <div className='btn btn-primary'>
+            kirim state dengan link
+          </div>
+        </Link>
+        <div>
+          <Table striped bordered>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>userid</th>
+                <th>status</th>
+                <th>tanggal</th>
+                <th>foto</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* {renderdata()} */}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td><input type='number' placeholder='userid' ref={datainput.userid} /></td>
+                <td><CustomInput id='foto' type='file' label={addimagefile.addImageFileName} onChange={onAddImageFileChange} multiple /></td>
+                <td><button onClick={mtfckr} className='btn btn-primary'> add foto</button></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><input type='number' placeholder='userid' ref={datainput.userid} /></td>
+                <td><CustomInput id='foto' type='file' label={addimagefile.addImageFileName} onChange={onAddImageFileChange} /></td>
+                <td><button onClick={mtfckr} className='btn btn-primary'> add foto</button></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </Table>
+        </div>
 
         <Modal isOpen={open} toggle={()=>setopen(!open)}>
             <ModalBody>
