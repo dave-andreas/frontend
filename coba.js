@@ -99,3 +99,7 @@ var arr = []
 arr.push('oke')
 arr.push('lah')
 console.log(arr)
+
+var ehe = 'public//asdas'
+
+console.log(ehe[0])

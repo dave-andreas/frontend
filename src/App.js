@@ -15,6 +15,7 @@ import Profile from './pages/user/user-profile'
 import Models from './pages/models'
 import Main from './pages/admin/main'
 import Editmodel from './pages/admin/editmodel'
+import Ordering from './pages/user/ordering'
 
 import {getuser} from './redux/action'
 import {useDispatch,useSelector} from 'react-redux'
@@ -44,6 +45,7 @@ function App () {
           <Route path={'/verified'} exact component={Verified}/>
           <Route path={'/profile'} exact component={Profile}/>
           <Route path={'/models'} exact component={Models}/>
+          <Route path={'/ordering'} exact component={Ordering}/>
         </Switch>
       </div>
     );

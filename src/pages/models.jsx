@@ -2,9 +2,10 @@ import React, {useState,useEffect} from 'react';
 import './models.css'
 import Axios from 'axios';
 import {apiurl} from '../helper/apiurl'
-import {Card, CardActionArea, CardContent, CardMedia, Button, IconButton} from '@material-ui/core'
-import {Favorite} from '@material-ui/icons'
+import {Link} from 'react-router-dom'
 
+import {Favorite} from '@material-ui/icons'
+import {Card, CardActionArea, CardContent, CardMedia, Button, IconButton} from '@material-ui/core'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { useTheme } from '@material-ui/core/styles'
@@ -17,7 +18,7 @@ import Footer from '../components/footer'
 import img3 from '../gambar/photo-128278505_1.jpg'
 
 function Models () {
-    const [arr,setarr] = useState(['ALL','Outwear','Topwear','Dress','Jumpsuit','Traditional','Pants','Skirt'])
+    const arr = ['ALL','Outwear','Topwear','Dress','Jumpsuit','Traditional','Pants','Skirt']
     const [sty,setsty] = useState([{color:'salmon'}])
     const [models,setmodels] = useState([])
     const [cat,setcat] = useState(0)
@@ -28,6 +29,17 @@ function Models () {
     const maxSteps = gambar.length
     const [modal,setmodal] = useState(false)
     const [index,setindex] = useState()
+    const [id,setid] = useState()
+
+    useEffect (()=>{
+        Axios.get(`${apiurl}/admin/getmod`)
+        .then(res=>{
+            console.log(res.data)
+            setmodels(res.data)
+        }).catch(err=>{
+            console.log(err)
+        })
+    },[])
 
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -41,25 +53,15 @@ function Models () {
 
     const detil =(index,id)=>{
         setindex(index)
+        setid(id)
         setmodal(!modal)
         Axios.get(`${apiurl}/admin/getgmb/${id}`)
         .then(res=>{
             setgambar(res.data)
-            console.log(gambar)
         }).catch(err=>{
             console.log(err)
         })
     }
-
-    useEffect (()=>{
-        Axios.get(`${apiurl}/admin/getmod`)
-        .then(res=>{
-            console.log(res.data)
-            setmodels(res.data)
-        }).catch(err=>{
-            console.log(err)
-        })
-    },[])
 
     const gatlik=(x)=>{
         var nesty=[]
@@ -85,7 +87,7 @@ function Models () {
                 return (
                     <Card key={index} elevation={7} style={{marginRight:'18px',marginLeft:'18px',marginBottom:'40px',width:200}}>
                         <CardActionArea onClick={()=>detil(index,val.id)}>
-                            <CardMedia style={{height:0,paddingTop:'130%'}} image={val.path} />
+                            <CardMedia style={{height:0,paddingTop:'130%'}} image={val.path ? (val.path[0] === 'p' ? `${apiurl}/${val.path}` :val.path) :null} />
                         </CardActionArea>
                         <CardContent>
                             <div className='d-flex'>
@@ -105,7 +107,7 @@ function Models () {
                     return (
                         <Card key={index} elevation={7} style={{marginRight:'18px',marginLeft:'18px',marginBottom:'40px',width:200}}>
                             <CardActionArea onClick={()=>detil(index,val.id)}>
-                                <CardMedia style={{height:0,paddingTop:'130%'}} image={val.path} />
+                                <CardMedia style={{height:0,paddingTop:'130%'}} image={val.path ? (val.path[0] === 'p' ? `${apiurl}/${val.path}` :val.path) :null} />
                             </CardActionArea>
                             <CardContent>
                                 <div className='d-flex'>
@@ -137,7 +139,7 @@ function Models () {
                             >
                                 {gambar.map((val,index) => (
                                     <div key={index} style={{width:360}}>
-                                        <CardMedia style={{height:0,paddingTop:'150%'}} image={val.path}/>
+                                        <CardMedia style={{height:0,paddingTop:'150%'}} image={val.path ? (val.path[0] === 'p' ? `${apiurl}/${val.path}` :val.path) :null}/>
                                     </div>
                                 ))}
                             </SwipeableViews>
@@ -158,30 +160,19 @@ function Models () {
                             }
                             />
                         </div>
-                        <div style={{maxWidth:400}}>
+                        <div className='d-flex flex-column' style={{width:400}}>
                             <div>
                                 {index >= 0 ? <h3>{models[index].name}</h3> : null}
                                 <div className='my-4' style={{borderBottomColor:'black',width:'100%',border:'solid',borderWidth:2}}/>
                                 <div>
-                                    A beautiful cashmere sweater. 
-                                    It's amazingly comfortable and held up with a cold wash/flat dry. 
-                                    Because its cashmere it takes a bit of work to keep it clean but its worth it with the look. 
-                                    It fits well, has a bit of room so you can wear an undershirt if needed. 
-                                    It didn't itch or scratch though. 
-                                    The sleeves are a little long but look good pushed up on the forearms. 
-                                    Overall, lovely shirt and soooo soft.
+                                    {index >= 0 ? models[index].desk :null}
                                 </div>
                             </div>
-                            <div className='d-flex' style={{marginTop:180}}>
-                                <div>
-                                    {/* biar ke kanan */}
-                                </div>
-                                <div className='ml-auto'>
-                                    <IconButton>
-                                        <Favorite color='secondary' fontSize='large' style={{marginRight:10}} />
-                                    </IconButton>
-                                    <Button variant='contained' color='primary' size='large'>Get it!</Button>
-                                </div>
+                            <div className='d-flex justify-content-end mt-auto'>
+                                <IconButton>
+                                    <Favorite color='secondary' fontSize='large' style={{marginRight:10}} />
+                                </IconButton>
+                                <Button variant='contained' color='primary' size='large' component={Link} to={{pathname:'/ordering'}} onClick={()=>localStorage.setItem('modelid',id)}>Get it!</Button>
                             </div>
                         </div>
                     </div>

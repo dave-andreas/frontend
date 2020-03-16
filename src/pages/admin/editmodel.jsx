@@ -4,8 +4,8 @@ import Axios from 'axios'
 import {Redirect,Link} from 'react-router-dom'
 import {apiurl} from '../../helper/apiurl'
 
-import {IconButton,CardMedia,Button,TextField,Select,MenuItem,InputLabel,FormControl,Chip,Input} from '@material-ui/core'
-import {Edit,Delete,AddCircle,Save} from '@material-ui/icons'
+import {IconButton,CardMedia,Button,TextField,Select,MenuItem,InputLabel,FormControl,Chip} from '@material-ui/core'
+import {Edit,Delete,Save,Add} from '@material-ui/icons'
 
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -13,24 +13,12 @@ import { useTheme } from '@material-ui/core/styles'
 import SwipeableViews from 'react-swipeable-views'
 import MobileStepper from '@material-ui/core/MobileStepper'
 
-import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
+import {Modal,ModalHeader,ModalBody,ModalFooter,CustomInput} from 'reactstrap'
 
 import Header from '../../components/header'
 
 
-function getStyles (val,fab) {
-    var x = {fontWeight:'normal'}
-    fab.forEach(fab=>{
-        if(fab.idbahan===val.idbahan){
-            x = {fontWeight:'bolder'}
-        }
-    })
-    return x
-}
-
 function Editmodel ({location}) {
-    // const {id} = location
-    // const id = localStorage.getItem('modelid')
     const [id,setid] = useState(localStorage.getItem('modelid'))
     const [model,setmodel] = useState({})
     const [img,setimg] = useState([])
@@ -50,7 +38,6 @@ function Editmodel ({location}) {
             Axios.get(`${apiurl}/admin/selectfab/${id}`)
             .then(res=>{
                 setfab(res.data.fab)
-                setnewfab(res.data.fab)
                 setallfab(res.data.allfab)
             }).catch(err=>{
                 console.log(err)
@@ -64,7 +51,7 @@ function Editmodel ({location}) {
         return img.map((val,index)=>{
             return (
                 <div key={index} className='mt-1' onClick={()=>setActiveStep(index)} style={{paddingLeft:'30%'}}>
-                    <CardMedia style={{height:0,paddingTop:'130%',borderRadius:'4px'}} image={val.path} />
+                    <CardMedia style={{height:0,paddingTop:'130%',borderRadius:'4px'}} image={val.path[0] === 'p' ? `${apiurl}/${val.path}` :val.path} />
                 </div>
             )
         })
@@ -100,29 +87,89 @@ function Editmodel ({location}) {
     const [editharga,seteditharga] = useState(true)
     const [editkat,seteditkat] = useState(true)
     const [editfab,seteditfab] = useState(true)
-    const [open, setOpen] = useState(false)
-    const handleClose = () => {
-        setOpen(false);
-    }
-    const handleOpen = () => {
-        setOpen(true);
-    }  
-    const handlemulti = e => {
-        const {id,value} = e.target
-        // setfab({...fab,[id]:value,idmodel:localStorage.getItem('modelid')})
-        setfab(e.target.value)
-        console.log(fab)
-    }
+    const [addimg,setaddimg] = useState(true)
+    const [openkat, setopenkat] = useState(false)
+    const [openfab, setopenfab] = useState(false)
     const saveicon = () => {
         Axios.put(`${apiurl}/admin/editmod`,model)
         .then(res=>{
-            setmodel(res.data.model[0])
-            setimg(res.data.image)
-            setkat(res.data.kat)
-            seteditname(true)
-            seteditdesk(true)
-            seteditharga(true)
-            seteditkat(true)
+            Axios.post(`${apiurl}/admin/editfabmod`,{id,data:fab})
+            .then(res1=>{
+                setmodel(res.data.model[0])
+                setimg(res.data.image)
+                setkat(res.data.kat)
+                setfab(res1.data)
+                seteditname(true)
+                seteditdesk(true)
+                seteditharga(true)
+                seteditkat(true)
+                seteditfab(true)
+            }).catch(err1=>{
+                console.log(err1)
+            })
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+
+
+    const handlenew = e => {
+        setnewfab(e.target.value)
+    }
+    const addmulti = () => {
+        fab.push(newfab)
+        console.log(fab)
+    }
+    const rennewchip = () => {
+        if(fab){
+            return fab.map((val,index)=>{
+                return (
+                    <Chip key={index} label={val.name} color='primary' size='small' className='m-1' onDelete={editfab ? undefined : handledlt(val)} />
+                )
+            })
+        }
+    }
+    const handledlt = chiptodlt => () => {
+        setfab(chip => chip.filter(chip => chip.idbahan !== chiptodlt.idbahan))
+        console.log(fab)
+    }
+
+
+    const [imgfile,setimgfile]=useState({})
+    const handlefile = event => {
+        // console.log(document.getElementById('addimgPost').files[0])
+        console.log(event.target.files[0])
+        if(event.target.files[0]){
+            setimgfile(event.target.files[0])
+        }else{
+            setimgfile({...imgfile,fileName:'no file selected',file:undefined})
+        }
+    }
+    const saveimg = () => {
+        console.log(imgfile)
+        const formdata = new FormData()
+        formdata.append('image', imgfile)
+        formdata.append('modelid', id)
+        Axios.post(`${apiurl}/admin/uplmod`,formdata,
+            {
+                headers:{
+                    'Content-Type':'multipart/form-data'
+                }
+            })
+        .then(res=>{
+            console.log(res)
+            setimg(res.data)
+            setaddimg(true)
+            setActiveStep(img.length)
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
+    const dltimg = () => {
+        Axios.put(`${apiurl}/admin/delimgmod`,img[activeStep])
+        .then(res=>{
+            setimg(res.data)
+            setActiveStep(activeStep-1)
         }).catch(err=>{
             console.log(err)
         })
@@ -141,30 +188,6 @@ function Editmodel ({location}) {
         })
     }
 
-
-    const chipcolor =(val,newfab)=> {
-        var x = 'secondary'
-        newfab.forEach(newfab=>{
-            if(newfab.idbahan===val.idbahan){
-                x = 'primary'
-            }
-        })
-        return x
-    }
-    const renchip = () => {
-        if(allfab){
-            return allfab.map((val,index)=>{
-                return (
-                    <Chip key={index} label={val.name} color={chipcolor(val,newfab)} size='small' className='m-1' 
-                        onClick={()=>{
-                            newfab.push(val)
-                            console.log(newfab)
-                        }} />
-                )
-            })
-        }
-    }
-    
 
     if(!id){
         return (
@@ -220,10 +243,7 @@ function Editmodel ({location}) {
                             <div style={{width:'20%'}}>
                                 {imgedit()}
                                 {img.length ? 
-                                    <Button variant='outlined' color='inherit' className='mt-1' style={{width:'70%',marginLeft:'30%'}}><Delete/></Button>
-                                :null}
-                                {img.length < 3 ? 
-                                    <Button variant='outlined' color='inherit' className='mt-1' style={{width:'70%',marginLeft:'30%'}}><AddCircle/></Button>
+                                    <Button variant='outlined' color='inherit' className='mt-1' style={{width:'70%',marginLeft:'30%'}} onClick={dltimg}><Delete/></Button>
                                 :null}
                             </div>
                             <div className='pt-1 justify-content-center' style={{width:'80%',paddingRight:'10%',paddingLeft:'1%'}}>
@@ -234,14 +254,9 @@ function Editmodel ({location}) {
                                 onChangeIndex={handleStepChange} >
                                     {img.map((val,index) => (
                                         <div key={index} style={{width:'100%'}}>
-                                            <CardMedia style={{height:0,paddingTop:'120%'}} image={val.path}/>
+                                            <CardMedia style={{height:0,paddingTop:'120%'}} image={val.path[0] === 'p' ? `${apiurl}/${val.path}` :val.path}/>
                                         </div>
                                     ))}
-                                    {/* <GridListTileBar titlePosition='top' actionIcon={
-                                        <IconButton><Delete color='inherit' /></IconButton>
-                                    }
-                                    style={{backgroundColor:'transparent',border:'solid'}} 
-                                    /> */}
                                 </SwipeableViews>
                                 
                                 <MobileStepper
@@ -302,9 +317,9 @@ function Editmodel ({location}) {
                                     {model.name?
                                         <Select
                                         name="kategoriid" disabled={editkat}
-                                        open={open}
-                                        onClose={handleClose}
-                                        onOpen={handleOpen}
+                                        open={openkat}
+                                        onClose={()=>{setopenkat(false)}}
+                                        onOpen={()=>{setopenkat(true)}}
                                         value={model.kategoriid}
                                         onChange={handleselect}
                                         >
@@ -330,54 +345,68 @@ function Editmodel ({location}) {
                                 }
                             </div>
                             <div className='d-flex justify-content-between mb-3' style={{width:'100%',fontSize:30,paddingLeft:30,paddingRight:20}}>
-                                {allfab? 
+                                {allfab?
                                     <Select
-                                        id="idbahan"
-                                        multiple disabled={editfab}
-                                        value={fab}
-                                        onChange={handlemulti}
-                                        input={<Input id="select-multiple-chip" />}
-                                        style={{width:'90%'}}
-                                        renderValue={selected => (
-                                            <div className='d-flex flex-wrap'>
-                                            {selected.map((value,index) => (
-                                                <Chip key={index} label={value.name} className='m-2' />
-                                            ))}
-                                            </div>
-                                        )}
-                                        >
-                                            {allfab.map((val,index) => (
-                                                <MenuItem key={index} value={val}
-                                                style={getStyles(val, fab)}
-                                                >
-                                                    {val.name}
-                                                </MenuItem>
-                                            ))}
+                                        id="kategoriid" disabled={editfab}
+                                        open={openfab}
+                                        onClose={()=>setopenfab(false)}
+                                        onOpen={()=>setopenfab(true)}
+                                        onChange={handlenew}
+                                        style={{width:'100%'}}
+                                    >
+                                        <MenuItem value="">
+                                            <em>select then click plus icon</em>
+                                        </MenuItem>
+                                        {allfab.map((val,index)=>{
+                                            return (
+                                                <MenuItem key={index} value={val}>{val.name}</MenuItem>
+                                            )
+                                        })}
                                     </Select>
+                                    
                                 :null}
                                 {editfab ? 
                                 <IconButton onClick={()=>seteditfab(!editfab)}>
                                     <Edit />
                                 </IconButton>
                                 :
-                                <IconButton onClick={()=>seteditfab(!editfab)}>
+                                <div className='d-flex'>
+                                    <IconButton onClick={()=>addmulti()}>
+                                        <Add />
+                                    </IconButton>
+                                    <IconButton onClick={()=>saveicon()}>
+                                        <Save />
+                                    </IconButton>
+                                </div>
+                                }
+                            </div>
+                            <div className='d-flex flex-wrap justify-content-start mb-3' style={{width:'100%',fontSize:30,paddingLeft:30,paddingRight:20}}>
+                                {rennewchip()}
+                            </div>
+                            <div className='d-flex justify-content-end' style={{width:'100%',paddingLeft:30,paddingRight:20}}>
+                                <CustomInput type="file" id="image" name="customFile" className='mt-1 mr-2' disabled={addimg} onChange={handlefile} />
+                                {addimg ? 
+                                <IconButton onClick={()=>setaddimg(!addimg)}>
+                                    <Edit />
+                                </IconButton>
+                                :
+                                <IconButton onClick={()=>saveimg()}>
                                     <Save />
                                 </IconButton>
                                 }
                             </div>
-                            <div className='d-flex flex-wrap justify-content-start mb-3' style={{width:'100%',fontSize:30,paddingLeft:30,paddingRight:20}}>
-                                {renchip()}
-                            </div>
-                            
                             <div className='d-flex mt-auto justify-content-end'>
-                                <Button className='mx-1' variant='contained' color='primary' style={{width:'100%'}} onClick={()=>{
+                                <Button className='mx-1' variant='contained' color='primary' onClick={()=>saveicon()} disabled={!editname||!editdesk||!editharga||!editkat||!editfab ? false : true}>
+                                    <Save />
+                                </Button>
+                                <Button className='mx-1' variant='contained' color='inherit' style={{width:'100%'}} onClick={()=>{
                                     setid(0)
                                     localStorage.removeItem('modelid')
                                     }}>
                                     Back to dashboard
                                 </Button>
                                 <Button className='mx-1' variant='contained' color='secondary' onClick={()=>setmodlt(!modlt)}>
-                                    Delete
+                                    <Delete />
                                 </Button>
                             </div>
                         </div>
