@@ -167,10 +167,10 @@ function Orderingdetil ({actvstep,stepaction,firststep}) {
                         </FormControl>
                     </div>
                     <div className='mt-auto mb-3 d-flex justify-content-end'>
-                        <Button className='mx-1' variant='contained' color='inherit' onClick={()=>stepaction('BACK')} disabled={actvstep === 0}>
+                        <Button className='m-2' variant='contained' color='inherit' onClick={()=>stepaction('BACK')} disabled={actvstep === 0}>
                             Back
                         </Button>
-                        <Button className='mx-1' variant="contained" color="primary" onClick={()=>firststep(order)} disabled={order.bahanid && order.warna && order.jumlah ? false : true}>
+                        <Button className='m-2' variant="contained" color="primary" onClick={()=>firststep(order)} disabled={order.bahanid && order.warna && order.jumlah ? false : true}>
                             {actvstep === 2 ? 'Save' : 'Next'}
                         </Button>
                     </div>

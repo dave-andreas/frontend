@@ -1,20 +1,13 @@
-import React, {useState,useEffect} from 'react'
-import Axios from 'axios'
+import React from 'react'
 import {connect} from 'react-redux'
-import { apiurl } from '../../helper/apiurl'
+import {Link} from 'react-router-dom'
 import {stepaction} from '../../redux/action'
 import Header from '../../components/header'
 import Orderingdetil from './orderingdetail'
 import Orderingconfirm from './orderingconfirm'
+import Orderingfinal from './orderingfinal'
 
-import { useTheme } from '@material-ui/core/styles'
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
-import SwipeableViews from 'react-swipeable-views'
-import MobileStepper from '@material-ui/core/MobileStepper'
-
-import {Stepper,Step,StepLabel,Button,Typography,CardMedia,FormControl,InputLabel,Select,MenuItem,TextField,Paper} from '@material-ui/core'
-import orderingconfirm from './orderingconfirm'
+import {Stepper,Step,StepLabel,Button} from '@material-ui/core'
   
 function getStepContent(stepIndex) {
     switch (stepIndex) {
@@ -23,14 +16,14 @@ function getStepContent(stepIndex) {
         case 1:
             return <Orderingconfirm/>
         case 2:
-            return 'Save To chart';
+            return <Orderingfinal/>
         default:
-            return 'Unknown stepIndex';
+            return 'Unknown stepIndex'
     }
 }
 
 function Ordering ({actvstep,stepaction}) {
-    const steps = ['Make your own', 'Check again', 'Save it !'];
+    const steps = ['Make your own', 'Check again', 'Finally !'];
 
     return (
         <div>
@@ -38,9 +31,10 @@ function Ordering ({actvstep,stepaction}) {
             <div className='d-flex flex-column mx-5' style={{marginTop:80,height:575}}>
                 <div className='d-flex justify-content-center'>
                     {actvstep === steps.length ? (
-                        <div className='d-flex flex-column align-items-center'>
-                            <Typography>Go to chart</Typography>
-                            <Button variant='contained' color='inherit' onClick={()=>stepaction('RESET')}>Make a new one</Button>
+                        <div className='d-flex flex-column mt-5' style={{width:'50%'}}>
+                            <Button className='m-2' variant='contained' style={{backgroundColor:'salmon',color:'white',width:'100%'}}>go to cart</Button>
+                            <Button className='m-2' variant='outlined' style={{width:'100%'}} color='primary' onClick={()=>stepaction('RESET')}>make a new one</Button>
+                            <Button className='m-2' variant='contained' style={{width:'100%',color:'white'}} color='primary' component={Link} to={{pathname:'/models'}}>choose other model</Button>
                         </div>
                     ) : (
                         getStepContent(actvstep)

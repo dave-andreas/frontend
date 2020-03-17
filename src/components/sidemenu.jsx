@@ -1,5 +1,5 @@
 import React from 'react';
-import {IconButton,Icon} from '@material-ui/core'
+import {IconButton} from '@material-ui/core'
 import {Settings,Waves,Palette,ListAlt} from '@material-ui/icons'
 
 import {connect} from 'react-redux'

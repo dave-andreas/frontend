@@ -1,24 +1,68 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import './profile-setting.css'
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Axios from 'axios'
+import {apiurl} from '../../helper/apiurl'
+import {Paper,Table,TableHead,TableBody,TableRow,TableCell,IconButton,Button} from '@material-ui/core'
+import {Info,Edit,Delete} from '@material-ui/icons'
+import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
 
 function Bodysize () {
+    const [boze,setboze] = useState([])
+
+    useEffect(()=>{
+        Axios.get(`${apiurl}/user/getboze/${localStorage.getItem('id')}`)
+        .then(res=>{
+            console.log(res.data)
+            setboze(res.data)
+        }).catch(err=>{
+            console.log(err)
+        })
+    },[])
+
+    const renderboze = () => {
+        return boze.map((boze,index)=>{
+            return (
+                <TableRow key={index}>
+                    <TableCell>{index+1}</TableCell>
+                    <TableCell>{boze.name}</TableCell>
+                    <TableCell style={{width:'20%'}}>
+                        <IconButton>
+                            <Info/>
+                        </IconButton>
+                    </TableCell>
+                    <TableCell style={{width:'20%'}}>
+                        <IconButton>
+                            <Edit/>
+                        </IconButton>
+                        <IconButton>
+                            <Delete/>
+                        </IconButton>
+                    </TableCell>
+                </TableRow>
+            )
+        })
+    }
+
     return (
-        <div>
-            <center>
+        <div style={{paddingLeft:'15%',paddingRight:'20%',marginTop:80}}>
+            <Paper elevation={5}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={{fontWeight:'bold'}}>no.</TableCell>
+                            <TableCell style={{fontWeight:'bold'}}>Name</TableCell>
+                            <TableCell style={{fontWeight:'bold'}}>Detil</TableCell>
+                            <TableCell style={{fontWeight:'bold'}}>Action</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {renderboze()}
+                    </TableBody>
+                </Table>
+            </Paper>
+            <Button className='mt-4' variant='contained' color='primary'>add new</Button>
+            {/* <center>
                 <div className='mt-4'>
                     <table className='table'>
                         <thead style={{backgroundColor:'#deddfa'}}>
@@ -75,7 +119,7 @@ function Bodysize () {
             </center>
             <div className='tombol'>
                 <button className='btn btn-primary'>Add</button>
-            </div>
+            </div> */}
         </div>
     )
 }

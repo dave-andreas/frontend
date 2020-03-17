@@ -1,23 +1,24 @@
-// var INITIAL_STATE={
-//     id:'',
-//     username:'',
-//     email:'',
-//     role:'',
-//     error:'kosong',
-//     loading:false
-// }
-// var action={
-//     payload:{
-//         id:5,
-//         username:'ada',
-//         role:'kacung',
-//         bla:'bla'
-//     }
-// }
+var INITIAL_STATE={
+    id:'',
+    username:'',
+    email:'',
+    role:'',
+    error:'kosong',
+    loading:false
+}
+var action={
+    payload:{
+        id:5,
+        username:'ada',
+        role:'kacung',
+        bla:'bla'
+    }
+}
 
-// INITIAL_STATE={...INITIAL_STATE, ...action.payload, error:'ada', loading:true, userid:30}
+var kucing=3000
 
-// console.log(INITIAL_STATE)
+console.log({...INITIAL_STATE,kucing})
+
 // console.log('masuk')
 // function staircase(a) {
 //     for(var i=0;i<a;i++){
@@ -46,11 +47,11 @@
 
 // console.log(arr[3])
 
-var fab = ['katun', 'silk', 'denim']
+// var fab = ['katun', 'silk', 'denim']
 
-var allfab = ['katun', 'chiffon', 'silk', 'linen', 'denim','par']
+// var allfab = ['katun', 'chiffon', 'silk', 'linen', 'denim','par']
 
-console.log(fab.indexOf('chiffon'))
+// console.log(fab.indexOf('chiffon'))
 
 // let buah = ['Banana', 'Orange', 'Lemon', 'Apple', 'Mango'];
 
@@ -60,14 +61,14 @@ console.log(fab.indexOf('chiffon'))
 // let buah4 = buah.slice(1,5);
 // console.log(buah4)
 
-let nama1 = ['Andi','Budi'];
-let nama2 = ['Andi','Dede','Euis'];
+// let nama1 = ['Andi','Budi'];
+// let nama2 = ['Andi','Dede','Euis'];
 
-let nama3 = nama1.concat(nama2); 
-let nama4 = nama2.concat(nama1); 
+// let nama3 = nama1.concat(nama2); 
+// let nama4 = nama2.concat(nama1); 
 
-console.log(nama3)
-console.log(nama4)
+// console.log(nama3)
+// console.log(nama4)
 
 // let buah = ['Jeruk','Nanas','Apel'];
 // buah.shift(2);
@@ -75,11 +76,11 @@ console.log(nama4)
 // buah.unshift('Lemon');
 // console.log(buah)
 
-let buah = ['Jeruk','Nanas','Apel'];
+// let buah = ['Jeruk','Nanas','Apel'];
 // buah.splice(2, 0, 'Lemon', 'Kiwi');
 // console.log(buah)
-buah.splice(1, 1);
-console.log(buah)
+// buah.splice(1, 1);
+// console.log(buah)
 
 // delete buah[0];
 // console.log(buah[0])
@@ -95,11 +96,11 @@ console.log(buah)
 // console.log(arr.indexOf({val:'g',id:3}))
 
 
-var arr = []
-arr.push('oke')
-arr.push('lah')
-console.log(arr)
+// var arr = []
+// arr.push('oke')
+// arr.push('lah')
+// console.log(arr)
 
-var ehe = 'public//asdas'
+// var ehe = 'public//asdas'
 
-console.log(ehe[0])
+// console.log(ehe[0])

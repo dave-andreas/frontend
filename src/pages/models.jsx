@@ -172,7 +172,7 @@ function Models () {
                                 <IconButton>
                                     <Favorite color='secondary' fontSize='large' style={{marginRight:10}} />
                                 </IconButton>
-                                <Button variant='contained' color='primary' size='large' component={Link} to={{pathname:'/ordering'}} onClick={()=>localStorage.setItem('modelid',id)}>Get it!</Button>
+                                <Button variant='contained' color='primary' size='large' component={Link} to={{pathname:'/ordering'}} style={{color:'white'}} onClick={()=>localStorage.setItem('modelid',id)}>Get it!</Button>
                             </div>
                         </div>
                     </div>

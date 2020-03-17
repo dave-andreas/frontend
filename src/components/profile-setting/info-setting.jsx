@@ -44,7 +44,7 @@ function Infosetting () {
     }
 
     return (
-        <div>
+        <div style={{width:'80%',paddingLeft:'10%',marginTop:80}}>
             <Modale open={open} togel={modal} title={`edit ${username} info`} fung={save} >
                 <div className='mb-2'>
                     Full Name : <input type='text' onChange={infohandle} name='fullname' className='form-control' defaultValue={info.fullname} placeholder='full name'/>
@@ -81,41 +81,37 @@ function Infosetting () {
                     Address : <input type='text' onChange={infohandle} name='address' className='form-control' defaultValue={info.address} placeholder='address' />
                 </div>
             </Modale>
-            <center>
-                <div className='mt-4'>
-                    <table className='table'>
-                        <tbody>
-                            <tr>
-                                <td>Username</td>
-                                <td>{username}</td>
-                            </tr>
-                            <tr>
-                                <td>Full Name</td>
-                                <td>{info.fullname}</td>
-                            </tr>
-                            <tr>
-                                <td>Age</td>
-                                <td>{info.usia}</td>
-                            </tr>
-                            <tr>
-                                <td>Gender</td>
-                                <td>{info.gender}</td>
-                            </tr>
-                            <tr>
-                                <td>Phone</td>
-                                <td>{info.phone}</td>
-                            </tr>
-                            <tr>
-                                <td>Addres</td>
-                                <td>{info.address}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </center>
-            <div className='tombol'>
-                <button className='btn btn-warning' onClick={modal}>edit</button>
+            <div className='mt-5'>
+                <table className='table'>
+                    <tbody>
+                        <tr>
+                            <td>Username</td>
+                            <td>{username}</td>
+                        </tr>
+                        <tr>
+                            <td>Full Name</td>
+                            <td>{info.fullname}</td>
+                        </tr>
+                        <tr>
+                            <td>Age</td>
+                            <td>{info.usia}</td>
+                        </tr>
+                        <tr>
+                            <td>Gender</td>
+                            <td>{info.gender}</td>
+                        </tr>
+                        <tr>
+                            <td>Phone</td>
+                            <td>{info.phone}</td>
+                        </tr>
+                        <tr>
+                            <td>Addres</td>
+                            <td>{info.address}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+            <button className='btn btn-warning mt-3' onClick={modal}>edit</button>
         </div>
     )
 }

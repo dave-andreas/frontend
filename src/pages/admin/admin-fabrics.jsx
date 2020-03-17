@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from '../../components/header';
 import { useEffect,useState } from 'react';
 import Axios from 'axios';
 import { apiurl } from '../../helper/apiurl';
@@ -146,7 +145,6 @@ function AdmFabrics () {
                 </Modal>
             : null}
             
-            {/* <Header/> */}
             <div style={{marginTop:90,marginBottom:'100px',paddingRight:100,paddingLeft:100}}>
                 <div style={{fontSize:'25px',marginBottom:'50px'}}>
                     MANAGE FABRICS
