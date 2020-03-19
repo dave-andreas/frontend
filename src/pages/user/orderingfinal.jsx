@@ -13,7 +13,7 @@ function Orderingfinal ({order,stepaction}) {
         <div style={{width:'60%',marginTop:40}}>
             <Paper className='py-3 px-4 mb-2' elevation={5}>
                 <div style={{fontSize:25,fontWeight:'bold'}}> Completing the payment</div>
-                Your order should be complete by transfering Rp (total) to :
+                Your order should be complete by transfering Rp {order.harga} to :
                 <div className='d-flex mt-3 align-items-center'>
                     <div className ='mr-3' style={{width:'10%'}}>
                         <CardMedia style={{height:20}} image={mandiri} />
@@ -49,8 +49,10 @@ function Orderingfinal ({order,stepaction}) {
                 </div>
             </Paper>
             <div className='d-flex justify-content-end'>
-                <Button className='m-2' variant='outlined' color='primary' onClick={()=>stepaction('NEXT')}>Pay later</Button>
-                <Button className='m-2' variant='contained' color='primary'>Upload Bill</Button>
+                <Button className='m-2' variant='outlined' color='primary' onClick={()=>stepaction('SKIP')}>Skip</Button>
+                {/* atau langsung checkout ? */}
+                <Button className='m-2' variant='contained' color='primary'>Checkout</Button>
+                <Button className='m-2' variant='contained' color='primary'>Pay Now</Button>
             </div>
         </div>
     )

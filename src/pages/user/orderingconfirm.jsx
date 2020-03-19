@@ -31,6 +31,7 @@ function Orderingconfirm ({order,stepaction,savecart}) {
             <Paper className='py-3 px-4 d-flex' elevation={5}>
                 <div style={{width:'20%'}}>
                     <CardMedia style={{height:0,paddingTop:'130%'}} image={model ? model.path : null}/>
+                    belum kalo path dari directori
                 </div>
                 {model && bahan ? 
                     <div className='ml-4'>

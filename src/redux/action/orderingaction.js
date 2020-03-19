@@ -19,6 +19,7 @@ export const savecart = (order) => {
         .then(res=>{
             console.log(res)
             dispatch ({type:'NEXT'})
+            dispatch ({type:'SAVE',payload:order})
         }).catch(err=>{
             console.log(err)
         })

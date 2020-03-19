@@ -13,6 +13,10 @@ export default(state=INITIAL_STATE,action)=>{
             return INITIAL_STATE
         case 'FIRST' :
             return {...state, order: action.payload, activestep: state.activestep+1}
+        case 'SAVE' :
+            return {...state, order: action.payload}
+        case 'SKIP' :
+            return {...state, order:INITIAL_STATE.order, activestep: state.activestep+1}
         default :
             return state
     }

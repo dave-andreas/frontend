@@ -5,19 +5,20 @@ import Bodysize from '../../components/profile-setting/body-size'
 import Accountinfo from '../../components/profile-setting/account-info'
 import Orderstatus from '../../components/profile-setting/order-status'
 import Savedproduct from '../../components/profile-setting/saved-product'
+import Cart from '../../components/profile-setting/cart'
 
 import {IconButton} from '@material-ui/core'
 import {Settings,ListAlt,ShoppingCart,Person,Accessibility,Lock,Favorite} from '@material-ui/icons'
 
 function content (x) {
     switch (x) {
-        case 1 : return 'CART'
+        case 1 : return <Cart/>
         case 2 : return <Infosetting/>
         case 3 : return <Bodysize/>
         case 4 : return <Accountinfo/>
         case 5 : return <Orderstatus/>
         case 6 : return <Savedproduct/>
-        default : return <Bodysize/>
+        default : return <Orderstatus/>
     }
 }
 

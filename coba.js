@@ -17,7 +17,7 @@ var action={
 
 var kucing=3000
 
-console.log({...INITIAL_STATE,kucing})
+// console.log({...INITIAL_STATE,kucing})
 
 // console.log('masuk')
 // function staircase(a) {
@@ -104,3 +104,27 @@ console.log({...INITIAL_STATE,kucing})
 // var ehe = 'public//asdas'
 
 // console.log(ehe[0])
+
+function orderstat (stat) {
+    switch (stat) {
+        case 0 : return 'order entry'
+        case 1 : return 'waiting for payment confirmation'
+        case 2 : return 'payment confirmed'
+        case 3 : return 'clothes are being made'
+        case 4 : return 'clothes are already completed'
+        case 5 : return 'being sent'
+        case 6 : return 'wait for user confirmation'
+        case 7 : return 'order completed'
+    }
+}
+
+function orderdetilstat (stat) {
+    switch (stat) {
+        case 0 : return 'clothes are being made'
+        case 1 : return 'clothes are already completed'
+    }
+}
+
+var date = new Date()
+console.log(date)
+console.log(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ; ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`)
