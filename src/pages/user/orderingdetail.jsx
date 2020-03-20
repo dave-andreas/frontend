@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import Axios from 'axios'
+import {Link} from 'react-router-dom'
 import { apiurl } from '../../helper/apiurl'
 import {connect} from 'react-redux'
 import {stepaction,firststep} from '../../redux/action'
@@ -10,7 +11,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views'
 import MobileStepper from '@material-ui/core/MobileStepper'
 
-import {Button,CardMedia,FormControl,InputLabel,Select,MenuItem,TextField,Paper} from '@material-ui/core'
+import {Button,CardMedia,FormControl,InputLabel,Select,MenuItem,TextField} from '@material-ui/core'
 
 function Orderingdetil ({actvstep,stepaction,firststep}) {
     const warna = ['Red','Orange','Yellow','Green','Blue','Nila','Purple']
@@ -167,6 +168,7 @@ function Orderingdetil ({actvstep,stepaction,firststep}) {
                         </FormControl>
                     </div>
                     <div className='mt-auto mb-3 d-flex justify-content-end'>
+                        <Button className='m-2' style={{color:'white'}} variant='contained' color='secondary' component={Link} to={'/models'}>cancle</Button>
                         <Button className='m-2' variant='contained' color='inherit' onClick={()=>stepaction('BACK')} disabled={actvstep === 0}>
                             Back
                         </Button>

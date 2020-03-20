@@ -18,7 +18,7 @@ function content (x) {
         case 4 : return <Accountinfo/>
         case 5 : return <Orderstatus/>
         case 6 : return <Savedproduct/>
-        default : return <Orderstatus/>
+        default : return <Cart/>
     }
 }
 

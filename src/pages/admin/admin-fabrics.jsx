@@ -146,7 +146,7 @@ function AdmFabrics () {
             : null}
             
             <div style={{marginTop:90,marginBottom:'100px',paddingRight:100,paddingLeft:100}}>
-                <div style={{fontSize:'25px',marginBottom:'50px'}}>
+                <div style={{fontSize:'25px',marginBottom:'40px'}}>
                     MANAGE FABRICS
                 </div>
                 <TableContainer component={Paper} elevation={6}>

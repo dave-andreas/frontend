@@ -10,7 +10,6 @@ function Orderingconfirm ({order,stepaction,savecart}) {
     const [model,setmodel] = useState()
     const [bahan,setbahan] = useState()
     const [bodysize,setbodysize] = useState()
-    const [address,setaddress] = useState()
     const harga = model && bahan ? ((model.harga + bahan.harga)*order.jumlah) :null
 
     useEffect(()=>{
@@ -20,7 +19,6 @@ function Orderingconfirm ({order,stepaction,savecart}) {
             setmodel(res.data.model[0])
             setbahan(res.data.bahan[0])
             setbodysize(res.data.bodysize[0])
-            setaddress(res.data.address[0].address)
         }).catch(err=>{
             console.log(err)
         })
@@ -30,8 +28,7 @@ function Orderingconfirm ({order,stepaction,savecart}) {
         <div style={{width:'60%',marginTop:40}}>
             <Paper className='py-3 px-4 d-flex' elevation={5}>
                 <div style={{width:'20%'}}>
-                    <CardMedia style={{height:0,paddingTop:'130%'}} image={model ? model.path : null}/>
-                    belum kalo path dari directori
+                    <CardMedia style={{height:0,paddingTop:'130%'}} image={model ? (model.path[0] === 'p' ? `${apiurl}/${model.path}` :model.path) : null}/>
                 </div>
                 {model && bahan ? 
                     <div className='ml-4'>
@@ -56,10 +53,6 @@ function Orderingconfirm ({order,stepaction,savecart}) {
                         </div>
                     </div>
                 :null}
-            </Paper>
-            <Paper className='py-3 px-4 mt-3' elevation={5}>
-                <div>Send it to ...</div>
-                <div style={{fontWeight:'bold'}}>{address}</div>
             </Paper>
             <div className='d-flex justify-content-end mt-2'>
                 <Button className='m-2' variant='contained' color='inherit' onClick={()=>stepaction('BACK')}>

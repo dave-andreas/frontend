@@ -26,7 +26,7 @@ function Sidemenu ({menuaction}) {
                     Fabrics
                 </div>
             </IconButton>
-            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}}>
+            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('ORDERLIST')}>
                 <ListAlt/>
                 <div style={{marginLeft:10, fontSize:15}}>
                     Order List

@@ -137,7 +137,6 @@ function Editmodel ({location}) {
 
     const [imgfile,setimgfile]=useState({})
     const handlefile = event => {
-        // console.log(document.getElementById('addimgPost').files[0])
         console.log(event.target.files[0])
         if(event.target.files[0]){
             setimgfile(event.target.files[0])

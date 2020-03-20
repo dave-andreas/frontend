@@ -5,10 +5,11 @@ import { apiurl } from '../../helper/apiurl'
 import {Paper,CardMedia,IconButton,Button,Snackbar,Slide} from '@material-ui/core'
 import {Clear,PlaylistAddCheck} from '@material-ui/icons'
 
-import {Modal,ModalHeader,ModalFooter} from 'reactstrap'
+import {Modal,ModalHeader,ModalFooter,ModalBody} from 'reactstrap'
 
 function Cart () {
     const [cart,setcart] = useState([])
+    const [address,setaddress] = useState('')
     const [snack,setsnack] = useState({
         open: false,
         message: ''
@@ -19,11 +20,12 @@ function Cart () {
     useEffect(()=>{
         Axios.get(`${apiurl}/user/getcart/${localStorage.getItem('id')}`)
         .then(res=>{
-            setcart(res.data)
-            res.data.forEach(cart=>{
+            console.log(res.data.address[0].address)
+            setcart(res.data.cart)
+            res.data.cart.forEach(cart=>{
                 settotharga(prev => prev+=cart.harga)
             })
-            console.log(totharga)
+            setaddress(res.data.address[0].address)
         }).catch(err=>{
             console.log(err)
         })
@@ -40,10 +42,11 @@ function Cart () {
     }
 
     const checkout = (id,userid,harga) => {
-        Axios.post(`${apiurl}/user/checkout?id=${id}&userid=${userid}&harga=${harga}`)
+        Axios.post(`${apiurl}/user/checkout?id=${id}&userid=${userid}&harga=${harga}&alamat=${address}`)
         .then(res=>{
             setcart(res.data)
             setmod(false)
+            setmod2(false)
             setsnack({...snack, open:!snack.open, message:'Ordering Successfuly!'})
         }).catch(err=>{
             console.log(err)
@@ -51,6 +54,18 @@ function Cart () {
     }
 
     const [mod,setmod] = useState(false)
+
+    const [mod2,setmod2] = useState(false)
+    const [cart2,setcart2] = useState({})
+    const openmod2 = (cart) => {
+        setcart2(cart)
+        setmod2(!mod2)
+    }
+
+    const handler = e => {
+        setaddress(e.target.value)
+        console.log(address)
+    }
 
     const rencart = () => {
         return cart.map((cart,index)=>{
@@ -77,7 +92,10 @@ function Cart () {
                         <IconButton style={{marginRight:3}} onClick={()=>delcart(cart.id)}>
                             <Clear style={{fontSize:17}} />
                         </IconButton>
-                        <IconButton onClick={()=>checkout(cart.id,cart.userid,cart.harga)}>
+                        <IconButton onClick={()=>{
+                            // checkout(cart.id,cart.userid,cart.harga)
+                            openmod2(cart)
+                            }}>
                             <PlaylistAddCheck style={{fontSize:20}} />
                         </IconButton>
                         <div className='d-flex align-items-end mt-auto'>
@@ -96,9 +114,42 @@ function Cart () {
                 <ModalHeader>
                     All gona be Rp {totharga}
                 </ModalHeader>
+                <ModalBody>
+                    <div>
+                        <div className='mb-2'>
+                            your order will be sent to ...<br/>
+                            <strong>{address}</strong>
+                        </div>
+                        <div className='mb-2'>
+                            or you can set another addres :
+                            <input type='text' className='form-control' placeholder='other address' onChange={handler} defaultValue={address} />
+                        </div>
+                    </div>
+                </ModalBody>
                 <ModalFooter>
                     <Button className='m-1' variant='contained' color='secondary' onClick={()=>setmod(!mod)}>change my mind</Button>
                     <Button className='m-1' variant='contained' color='primary' onClick={()=>checkout(0,localStorage.getItem('id'),totharga)}>okay</Button>
+                </ModalFooter>
+            </Modal>
+            <Modal isOpen={mod2} toggle={()=>setmod2(!mod2)}>
+                <ModalHeader>
+                    All gona be Rp {cart2.harga}
+                </ModalHeader>
+                <ModalBody>
+                    <div>
+                        <div className='mb-2'>
+                            your order will be sent to ...<br/>
+                            <strong>{address}</strong>
+                        </div>
+                        <div className='mb-2'>
+                            or you can set another addres :
+                            <input type='text' className='form-control' placeholder='other address' onChange={handler} defaultValue={address} />
+                        </div>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button className='m-1' variant='contained' color='secondary' onClick={()=>setmod2(!mod2)}>change my mind</Button>
+                    <Button className='m-1' variant='contained' color='primary' onClick={()=>checkout(cart2.id,cart2.userid,cart2.harga)}>okay</Button>
                 </ModalFooter>
             </Modal>
             <div style={{fontSize:25}}>YOUR CART</div>

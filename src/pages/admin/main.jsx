@@ -2,25 +2,29 @@ import React from 'react';
 
 import Models from './admin-models'
 import Fabrics from './admin-fabrics'
+import Orderlist from './orderlist'
 import Sidemenu from '../../components/sidemenu'
 import Header from '../../components/header'
 
 import {connect} from 'react-redux'
 
 function Main ({admin}) {
-    const render = () => {
-        if (admin === 'models') {
-            return <Models/>
-        }else if (admin === 'fabrics') {
-            return <Fabrics/>
+
+    const rencom = (admin) => {
+        switch (admin) {
+            case 'models' : return <Models/>
+            case 'fabrics' : return <Fabrics/>
+            case 'orderlist' : return <Orderlist/>
+            default : return <Orderlist/>
         }
     }
+
     return (
         <div>
             <Header/>
             <div className='d-flex'>
                 <Sidemenu/>
-                {render()}
+                {rencom(admin)}
             </div>
         </div>
     )

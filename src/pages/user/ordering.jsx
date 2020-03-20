@@ -32,7 +32,7 @@ function Ordering ({actvstep,stepaction}) {
                 <div className='d-flex justify-content-center'>
                     {actvstep === steps.length ? (
                         <div className='d-flex flex-column mt-5' style={{width:'50%'}}>
-                            <Button className='m-2' variant='contained' style={{backgroundColor:'salmon',color:'white',width:'100%'}}>go to cart</Button>
+                            <Button className='m-2' variant='contained' style={{backgroundColor:'salmon',color:'white',width:'100%'}} component={Link} to={'/profile'} onClick={()=>stepaction('RESET')}>go to cart</Button>
                             <Button className='m-2' variant='outlined' style={{width:'100%'}} color='primary' onClick={()=>stepaction('RESET')}>make a new one</Button>
                             <Button className='m-2' variant='contained' style={{width:'100%',color:'white'}} color='primary' component={Link} to={{pathname:'/models'}} onClick={()=>stepaction('RESET')}>choose other model</Button>
                         </div>
