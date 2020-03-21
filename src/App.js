@@ -6,15 +6,18 @@ import Login from './pages/login'
 import Register from './pages/register'
 import Waitverif from './pages/waitverif'
 import Verified from './pages/verified'
+import Models from './pages/models'
+
 import AdminHome from './pages/admin/admin-home'
 import AdmModels from './pages/admin/admin-models'
 import AdmFabrics from './pages/admin/admin-fabrics'
-import MyComponent from './pages/admin/slide'
 import Coba from './pages/admin/coba'
-import Profile from './pages/user/user-profile'
-import Models from './pages/models'
+import MyComponent from './pages/admin/slide'
 import Main from './pages/admin/main'
 import Editmodel from './pages/admin/editmodel'
+import Orderdetil from './pages/admin/orderdetil'
+
+import Profile from './pages/user/user-profile'
 import Ordering from './pages/user/ordering'
 
 import {getuser} from './redux/action'
@@ -63,6 +66,7 @@ function App () {
           <Route path={'/coba'} exact component={Coba}/>
           <Route path={'/main'} exact component={Main}/>
           <Route path={'/editmodel'} exact component={Editmodel}/>
+          <Route path={'/orderdetil'} exact component={Orderdetil}/>
         </Switch>
       </div>
     );

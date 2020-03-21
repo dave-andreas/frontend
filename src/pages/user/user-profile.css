@@ -22,6 +22,7 @@
     width: 250px;
     height: 90vh;
     position: absolute;
+    /* border: dashed; */
 }
 .ava{
     border: white solid 1px;

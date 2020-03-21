@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react'
 import Axios from 'axios'
 import { apiurl } from '../../helper/apiurl'
 
-import {Paper,CardMedia,IconButton,Button,Snackbar,Slide} from '@material-ui/core'
+import {Paper,CardMedia,IconButton,Button} from '@material-ui/core'
 import {Modal,ModalHeader,ModalBody,ModalFooter,CustomInput} from 'reactstrap'
 
 import mandiri from '../../gambar/logo-mandiri.png'
@@ -24,12 +24,36 @@ function Orderstatus () {
                     <div style={{color:'grey',margin:-10}} >waiting for payment confirmation</div>
                 </IconButton>
             )
-            case 2 : return 'payment confirmed'
-            case 3 : return 'clothes are being made'
-            case 4 : return 'clothes are already completed'
-            case 5 : return 'being sent'
-            case 6 : return 'wait for user confirmation'
-            case 7 : return 'order completed'
+            case 2 : return (
+                <IconButton className='mt-auto' style={{fontSize:13}} onClick={()=>openordit(index)}>
+                    <div style={{color:'grey',margin:-10}} >payment confirmed</div>
+                </IconButton>
+            )
+            case 3 : return (
+                <IconButton className='mt-auto' style={{fontSize:13}} onClick={()=>openordit(index)}>
+                    <div style={{color:'grey',margin:-10}} >clothes are being made</div>
+                </IconButton>
+            )
+            case 4 : return (
+                <IconButton className='mt-auto' style={{fontSize:13}} onClick={()=>openordit(index)}>
+                    <div style={{color:'grey',margin:-10}} >clothes are already completed</div>
+                </IconButton>
+            )
+            case 5 : return (
+                <IconButton className='mt-auto' style={{fontSize:13}} onClick={()=>openordit(index)}>
+                    <div style={{color:'grey',margin:-10}} >being sent</div>
+                </IconButton>
+            )
+            case 6 : return (
+                <IconButton className='mt-auto' style={{fontSize:13}} onClick={()=>openordit(index)}>
+                    <div style={{color:'grey',margin:-10}} >wait for user confirmation</div>
+                </IconButton>
+            )
+            case 7 : return (
+                <IconButton className='mt-auto' style={{fontSize:13}} onClick={()=>openordit(index)}>
+                    <div style={{color:'grey',margin:-10}} >order completed</div>
+                </IconButton>
+            )
             default : return 'something hapend ...'
         }
     }
