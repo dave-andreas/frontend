@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import Axios from 'axios'
+import {Link} from 'react-router-dom'
 import { apiurl } from '../../helper/apiurl'
 
 import {Paper,CardMedia,IconButton,Button} from '@material-ui/core'
@@ -14,6 +15,11 @@ function Orderstatus () {
 
     const orderstat = (stat,index) => {
         switch (stat) {
+            case -1 : return (
+                <IconButton className='mt-auto' style={{fontSize:13}} disabled>
+                    <div style={{color:'red',margin:-10,}} >canceled</div>
+                </IconButton>
+            )
             case 0 : return (
                 <IconButton className='mt-auto' style={{fontSize:13}} onClick={()=>open(index)}>
                     <div style={{color:'red',margin:-10,}} >not yet paid</div>
@@ -41,17 +47,17 @@ function Orderstatus () {
             )
             case 5 : return (
                 <IconButton className='mt-auto' style={{fontSize:13}} onClick={()=>openordit(index)}>
-                    <div style={{color:'grey',margin:-10}} >being sent</div>
+                    <div style={{color:'blue',margin:-10}} >being sent</div>
                 </IconButton>
             )
             case 6 : return (
-                <IconButton className='mt-auto' style={{fontSize:13}} onClick={()=>openordit(index)}>
-                    <div style={{color:'grey',margin:-10}} >wait for user confirmation</div>
+                <IconButton className='mt-auto' style={{fontSize:13}} component={Link} to={'/finishorder'} onClick={()=>localStorage.setItem('orderid',order[index].id)}>
+                    <div style={{color:'blue',margin:-10}} >wait for user confirmation</div>
                 </IconButton>
             )
             case 7 : return (
-                <IconButton className='mt-auto' style={{fontSize:13}} onClick={()=>openordit(index)}>
-                    <div style={{color:'grey',margin:-10}} >order completed</div>
+                <IconButton className='mt-auto' style={{fontSize:13}} component={Link} to={'/finishorder'} onClick={()=>localStorage.setItem('orderid',order[index].id)}>
+                    <div style={{color:'green',margin:-10}} >order completed</div>
                 </IconButton>
             )
             default : return 'something hapend ...'
@@ -117,6 +123,7 @@ function Orderstatus () {
     }
     const statordit = (stat) => {
         switch (stat) {
+            case -1 : return 'canceled'
             case 1 : return 'waiting for payment confirmation'
             case 2 : return 'payment confirmed'
             case 3 : return 'clothes are being made'
@@ -128,7 +135,6 @@ function Orderstatus () {
         }
     }
     const renmodit = () => {
-        console.log(detil)
         return (
             <ModalBody>
                 <div className='d-flex mb-2'>
@@ -154,7 +160,7 @@ function Orderstatus () {
                     <div style={{fontSize:11}}>SHIPPING ADDRESS :</div>
                     {ordit.alamat}
                 </div>
-                <div className='mx-2 mb-2'>
+                <div className='mx-2 mb-4'>
                     <div style={{fontSize:11}}>PURCHASE DETAILS :</div>
                     {detil.map((detil,index)=>{
                         return (

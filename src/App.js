@@ -19,6 +19,7 @@ import Orderdetil from './pages/admin/orderdetil'
 
 import Profile from './pages/user/user-profile'
 import Ordering from './pages/user/ordering'
+import Finishorder from './pages/user/finishorder'
 
 import {getuser} from './redux/action'
 import {useDispatch,useSelector} from 'react-redux'
@@ -49,6 +50,7 @@ function App () {
           <Route path={'/profile'} exact component={Profile}/>
           <Route path={'/models'} exact component={Models}/>
           <Route path={'/ordering'} exact component={Ordering}/>
+          <Route path={'/finishorder'} exact component={Finishorder}/>
         </Switch>
       </div>
     );

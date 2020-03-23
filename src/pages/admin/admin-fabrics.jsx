@@ -3,8 +3,7 @@ import { useEffect,useState } from 'react';
 import Axios from 'axios';
 import { apiurl } from '../../helper/apiurl';
 
-import {TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper} from '@material-ui/core'
-import {IconButton, Button} from '@material-ui/core'
+import {TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, IconButton, Button} from '@material-ui/core'
 import {Edit, Delete} from '@material-ui/icons'
 
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
@@ -33,6 +32,20 @@ function AdmFabrics () {
         })
     },[])
 
+    const [cari,setcari] = useState('')
+    const handle = e => {
+        setcari(e.target.value)
+    }
+    useEffect (()=>{
+        Axios.get(`${apiurl}/admin/carifab?cari=${cari}`)
+        .then(res=>{
+            // console.log(res.data)
+            setfabrics(res.data)
+        }).catch(err=>{
+            console.log(err)
+        })
+    },[cari])
+
     const rendertab =()=>{
         return fabrics.map((val,index)=>{
             return (
@@ -40,7 +53,11 @@ function AdmFabrics () {
                     <TableCell>{index+1}</TableCell>
                     <TableCell>{val.name}</TableCell>
                     <TableCell align='right'>Rp. {val.harga}</TableCell>
-                    <TableCell align='right'>{val.stok}</TableCell>
+                    {val.stok < 25 ?
+                    <TableCell align='center' style={{color:'white',backgroundColor:'salmon'}}>{val.stok}</TableCell>
+                    :
+                    <TableCell align='center'>{val.stok}</TableCell>
+                    }
                     <TableCell align='center'>
                         <IconButton onClick={()=>openedit(index)}>
                             <Edit/>
@@ -146,9 +163,10 @@ function AdmFabrics () {
             : null}
             
             <div style={{marginTop:90,marginBottom:'100px',paddingRight:100,paddingLeft:100}}>
-                <div style={{fontSize:'25px',marginBottom:'40px'}}>
+                <div style={{fontSize:'25px',marginBottom:'20px'}}>
                     MANAGE FABRICS
                 </div>
+                <input className='form-control mb-2' type='text' placeholder='find fabric ...' onChange={handle} />
                 <TableContainer component={Paper} elevation={6}>
                     <Table style={{minWidth:700}} size='small'>
                         <TableHead>
@@ -156,7 +174,7 @@ function AdmFabrics () {
                                 <TableCell style={{fontWeight:'bold'}}>no.</TableCell>
                                 <TableCell style={{fontWeight:'bold'}}>Name</TableCell>
                                 <TableCell align='right' style={{fontWeight:'bold',width:200}}>Price (/m2)</TableCell>
-                                <TableCell align='right' style={{fontWeight:'bold',width:200}}>Stock (m2)</TableCell>
+                                <TableCell align='center' style={{fontWeight:'bold',width:200}}>Stock (m2)</TableCell>
                                 <TableCell align='center' style={{fontWeight:'bold'}}>Action</TableCell>
                             </TableRow>
                         </TableHead>

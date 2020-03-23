@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
     activestep : 0,
-    order : {}
+    order : {},
+    insertid : ''
 }
 
 export default(state=INITIAL_STATE,action)=>{
@@ -14,7 +15,7 @@ export default(state=INITIAL_STATE,action)=>{
         case 'FIRST' :
             return {...state, order: action.payload, activestep: state.activestep+1}
         case 'SAVE' :
-            return {...state, order: action.payload}
+            return {...state, insertid:action.payload}
         case 'SKIP' :
             return {...state, order:INITIAL_STATE.order, activestep: state.activestep+1}
         default :

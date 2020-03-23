@@ -32,7 +32,7 @@ function Header () {
                         </Link>
                         <Link to={role === 'admin' ? '/' : '/'} style={{textDecoration:'none'}}>
                             <div className='menukiri'>
-                                FABRICS
+                                ABOUT
                             </div>
                         </Link>
                     </div>
@@ -70,7 +70,7 @@ function Header () {
                         MODELS
                     </div>
                     <div className='menukiri'>
-                        FABRICS
+                        ABOUT
                     </div>
                 </div>
                 <div className='logo'>

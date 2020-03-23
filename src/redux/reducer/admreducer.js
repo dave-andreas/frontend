@@ -10,6 +10,8 @@ export default(state=INITIAL_STATE,action)=>{
             return {...state, admin:'fabrics'}
         case 'ORDERLIST' :
             return {...state, admin:'orderlist'}
+        case 'STATISTICS' :
+            return {...state, admin:'statistics'}
         default :
             return state
     }

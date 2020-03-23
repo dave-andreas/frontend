@@ -17,9 +17,8 @@ export const savecart = (order) => {
     return (dispatch) => {
         Axios.post(`${apiurl}/user/savecart`,order)
         .then(res=>{
-            console.log(res)
             dispatch ({type:'NEXT'})
-            dispatch ({type:'SAVE',payload:order})
+            dispatch ({type:'SAVE',payload:res.data.insertId})
         }).catch(err=>{
             console.log(err)
         })

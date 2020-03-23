@@ -51,8 +51,8 @@ function Orderingfinal ({order,stepaction}) {
             <div className='d-flex justify-content-end'>
                 <Button className='m-2' variant='outlined' color='primary' onClick={()=>stepaction('SKIP')}>Skip</Button>
                 {/* atau langsung checkout ? */}
-                <Button className='m-2' variant='contained' color='primary'>Checkout</Button>
-                <Button className='m-2' variant='contained' color='primary'>Pay Now</Button>
+                {/* <Button className='m-2' variant='contained' color='primary'>Checkout</Button>
+                <Button className='m-2' variant='contained' color='primary'>Pay Now</Button> */}
             </div>
         </div>
     )

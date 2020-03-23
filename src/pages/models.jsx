@@ -18,8 +18,7 @@ import Footer from '../components/footer'
 import img3 from '../gambar/photo-128278505_1.jpg'
 
 function Models () {
-    const arr = ['ALL','Outwear','Topwear','Dress','Jumpsuit','Traditional','Pants','Skirt']
-    const [sty,setsty] = useState([{color:'salmon'}])
+    const [kat,setkat] = useState([])
     const [models,setmodels] = useState([])
     const [cat,setcat] = useState(0)
     const [gambar,setgambar] = useState([])
@@ -28,18 +27,45 @@ function Models () {
     const [activeStep, setActiveStep] = useState(0)
     const maxSteps = gambar.length
     const [modal,setmodal] = useState(false)
-    const [index,setindex] = useState()
     const [id,setid] = useState()
 
     useEffect (()=>{
-        Axios.get(`${apiurl}/admin/getmod`)
+        Axios.get(`${apiurl}/admin/getmod/${cat}`)
         .then(res=>{
-            console.log(res.data)
             setmodels(res.data)
+            Axios.get(`${apiurl}/admin/getkat`)
+            .then(res=>{
+                setkat(res.data)
+            }).catch(err=>{
+                console.log(err)
+            })
         }).catch(err=>{
             console.log(err)
         })
     },[])
+
+    useEffect (()=>{
+        Axios.get(`${apiurl}/admin/getmod/${cat}`)
+        .then(res=>{
+            setmodels(res.data)
+        }).catch(err=>{
+            console.log(err)
+        })
+    },[cat])
+
+    const [cari,setcari] = useState()
+    const handle = e => {
+        setcari(e.target.value)
+    }
+
+    useEffect (()=>{
+        Axios.get(`${apiurl}/admin/carimod?cari=${cari}`)
+        .then(res=>{
+            setmodels(res.data)
+        }).catch(err=>{
+            console.log(err)
+        })
+    },[cari])
 
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -51,8 +77,9 @@ function Models () {
         setActiveStep(step);
     };
 
+    const [modit,setmodit] = useState({})
     const detil =(index,id)=>{
-        setindex(index)
+        setmodit(models[index])
         setid(id)
         setmodal(!modal)
         Axios.get(`${apiurl}/admin/getgmb/${id}`)
@@ -63,66 +90,35 @@ function Models () {
         })
     }
 
-    const gatlik=(x)=>{
-        var nesty=[]
-        setsty([])
-        nesty[x]={color:'salmon'}
-        setsty(nesty)
-        setcat(x)
-    }
-
     const rendermenu=()=>{
-        return arr.map((val,index)=>{
+        return kat.map((kat,index)=>{
             return (
-                <div className='cat' key={index} style={sty[index]} onClick={()=>gatlik(index)}>
-                    {val}
+                <div className='cat' key={index} onClick={()=>setcat(kat.id)}>
+                    {kat.name}
                 </div>
             )
         })
     }
 
     const rendermaterial =()=>{
-        if(cat===0){
-            return models.map((val,index)=>{
-                return (
-                    <Card key={index} elevation={7} style={{marginRight:'18px',marginLeft:'18px',marginBottom:'40px',width:200}}>
-                        <CardActionArea onClick={()=>detil(index,val.id)}>
-                            <CardMedia style={{height:0,paddingTop:'130%'}} image={val.path ? (val.path[0] === 'p' ? `${apiurl}/${val.path}` :val.path) :null} />
-                        </CardActionArea>
-                        <CardContent>
-                            <div className='d-flex'>
-                                <h5 className='card-title' style={{fontSize:'13px'}}>{val.name}</h5>
-                                <IconButton style={{marginLeft:'auto', marginTop:'-15px', marginRight:'-15px'}}>
-                                    <Favorite style={{fontSize:'20'}} />
-                                </IconButton>
-                            </div>
-                            <div>Rp {val.harga},00</div>
-                        </CardContent>
-                    </Card>
-                )
-            })
-        }else{
-            return models.map((val,index)=>{
-                if(val.kategoriid===cat){
-                    return (
-                        <Card key={index} elevation={7} style={{marginRight:'18px',marginLeft:'18px',marginBottom:'40px',width:200}}>
-                            <CardActionArea onClick={()=>detil(index,val.id)}>
-                                <CardMedia style={{height:0,paddingTop:'130%'}} image={val.path ? (val.path[0] === 'p' ? `${apiurl}/${val.path}` :val.path) :null} />
-                            </CardActionArea>
-                            <CardContent>
-                                <div className='d-flex'>
-                                    <h5 className='card-title' style={{fontSize:'13px'}}>{val.name}</h5>
-                                    <IconButton style={{marginLeft:'auto', marginTop:'-15px', marginRight:'-15px'}}>
-                                        <Favorite style={{fontSize:'20'}} />
-                                    </IconButton>
-                                </div>
-                                <div>Rp {val.harga},00</div>
-                            </CardContent>
-                        </Card>
-                    )
-                }
-            })
-        }
+        return models.map((val,index)=>{
+            return (
+                <Card key={index} elevation={7} style={{marginRight:'18px',marginLeft:'18px',marginBottom:'40px',width:200}}>
+                    <CardActionArea onClick={()=>detil(index,val.id)}>
+                        <CardMedia style={{height:0,paddingTop:'130%'}} image={val.path ? (val.path[0] === 'p' ? `${apiurl}/${val.path}` :val.path) : `null`} />
+                    </CardActionArea>
+                    <CardContent>
+                        <div className='d-flex'>
+                            <h5 className='card-title' style={{fontSize:'13px'}}>{val.name}</h5>
+                            <IconButton style={{marginLeft:'auto', marginTop:'-15px', marginRight:'-15px'}}>
+                                <Favorite style={{fontSize:'20'}} />
+                            </IconButton>
+                        </div>
+                        <div>Rp {val.harga},00</div>
+                    </CardContent>
+                </Card>
+            )
+        })
     }
 
     return (
@@ -162,10 +158,10 @@ function Models () {
                         </div>
                         <div className='d-flex flex-column' style={{width:400}}>
                             <div>
-                                {index >= 0 ? <h3>{models[index].name}</h3> : null}
+                                <h3>{modit.name}</h3>
                                 <div className='my-4' style={{borderBottomColor:'black',width:'100%',border:'solid',borderWidth:2}}/>
                                 <div>
-                                    {index >= 0 ? models[index].desk :null}
+                                    {modit.desk}
                                 </div>
                             </div>
                             <div className='d-flex justify-content-end mt-auto'>
@@ -188,9 +184,11 @@ function Models () {
                 </div>
             </div>
             <div className='d-flex' style={{justifyContent:'center',marginLeft:'200px',marginRight:'200px',marginBottom:'40px'}}>
+                <div className='cat' onClick={()=>setcat(0)}>
+                    ALL
+                </div>
                 {rendermenu()}
-                <input type='text' style={{marginLeft:'auto'}}/>
-                <div className='cat1' style={{marginLeft:'10px'}}>Search</div>
+                <input type='text' placeholder='find here' onChange={handle} style={{marginLeft:'auto'}}/>
             </div>
             <div className='row' style={{marginLeft:'200px',marginRight:'200px'}}>
                 {rendermaterial()}

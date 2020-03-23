@@ -3,6 +3,7 @@ import React from 'react';
 import Models from './admin-models'
 import Fabrics from './admin-fabrics'
 import Orderlist from './orderlist'
+import Statistics from './statistics'
 import Sidemenu from '../../components/sidemenu'
 import Header from '../../components/header'
 
@@ -15,7 +16,8 @@ function Main ({admin}) {
             case 'models' : return <Models/>
             case 'fabrics' : return <Fabrics/>
             case 'orderlist' : return <Orderlist/>
-            default : return <Orderlist/>
+            case 'statistics' : return <Statistics/>
+            default : return <Statistics/>
         }
     }
 

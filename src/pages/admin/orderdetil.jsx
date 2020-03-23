@@ -25,6 +25,8 @@ function Orderdetil () {
 
     const statordit = (stat) => {
         switch (stat) {
+            case -1 : return 'canceled'
+            case 0 : return 'not yet paid'
             case 1 : return 'waiting for payment confirmation'
             case 2 : return 'payment confirmed'
             case 3 : return 'clothes are being made'
@@ -130,18 +132,20 @@ function Orderdetil () {
                 <ModalHeader>Change Order Status</ModalHeader>
                 <ModalBody>
                     <div className='mx-3 mb-3'>
+                        put -1 : 'canceled' <br/>
+                        put 0 : 'not yet paid' <br/>
                         put 1 : 'waiting for payment confirmation' <br/>
                         put 2 : 'payment confirmed' <br/>
                         put 3 : 'clothes are being made' <br/>
                         put 4 : 'clothes are already completed' <br/>
                         put 5 : 'being sent' <br/>
-                        put 6 : 'wait for user confirmation' <br/>
-                        put 7 : 'order completed'
+                        put 6 : 'wait for user confirmation' *for user <br/>
+                        put 7 : 'order completed' *for user
                     </div>
                     <input className='form-control' type='number' defaultValue={order.statusorder} placeholder='put between 1 to 7' onChange={handlestat} />
                 </ModalBody>
                 <ModalFooter>
-                    <Button variant='contained' color='primary' onClick={()=>savestat()}>save</Button>
+                    <Button variant='contained' color='primary' onClick={()=>savestat()} disabled={data.statusorder > 6 || data.statusorder < -1 ? true : false}>save</Button>
                 </ModalFooter>
             </Modal>
             <Header/>
@@ -151,7 +155,10 @@ function Orderdetil () {
                         <div className='m-3 pl-2' style={{borderBottom:'1px dashed',fontSize:30}}>Order Detail from '{order.username}'</div>
                         <div className='d-flex mb-3'>
                             <CardActionArea className='ml-4' style={{width:'25%'}} onClick={()=>setmodim(!modim)}>
+                                {order.buktibayar ? 
                                 <CardMedia style={{height:0,paddingTop:'130%'}} image={order.buktibayar ? `${apiurl}/${order.buktibayar}` :null}/>
+                                :
+                                <div style={{color:'red'}}>not posted yet</div>}
                             </CardActionArea>
                             <div className='ml-3 MT-2'>
                                 <div className='mb-2'>

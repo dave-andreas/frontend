@@ -41,6 +41,7 @@ function Orderlist () {
 
     const statorder = (stat) => {
         switch (stat) {
+            case -1 : return 'canceled'
             case 0 : return 'not yet paid'
             case 1 : return 'waiting your confirmation'
             case 2 : return 'payment confirmed'

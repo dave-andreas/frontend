@@ -20,7 +20,7 @@ function Cart () {
     useEffect(()=>{
         Axios.get(`${apiurl}/user/getcart/${localStorage.getItem('id')}`)
         .then(res=>{
-            console.log(res.data.address[0].address)
+            console.log(res.data.cart)
             setcart(res.data.cart)
             res.data.cart.forEach(cart=>{
                 settotharga(prev => prev+=cart.harga)
@@ -41,8 +41,8 @@ function Cart () {
         })
     }
 
-    const checkout = (id,userid,harga) => {
-        Axios.post(`${apiurl}/user/checkout?id=${id}&userid=${userid}&harga=${harga}&alamat=${address}`)
+    const checkout = (id,userid,harga,jumlah,bahanid,modelid) => {
+        Axios.post(`${apiurl}/user/checkout?id=${id}&userid=${userid}&harga=${harga}&alamat=${address}&jumlah=${jumlah}&bahanid=${bahanid}&modelid=${modelid}`)
         .then(res=>{
             setcart(res.data)
             setmod(false)
@@ -149,7 +149,7 @@ function Cart () {
                 </ModalBody>
                 <ModalFooter>
                     <Button className='m-1' variant='contained' color='secondary' onClick={()=>setmod2(!mod2)}>change my mind</Button>
-                    <Button className='m-1' variant='contained' color='primary' onClick={()=>checkout(cart2.id,cart2.userid,cart2.harga)}>okay</Button>
+                    <Button className='m-1' variant='contained' color='primary' onClick={()=>checkout(cart2.id,cart2.userid,cart2.harga,cart2.jumlah,cart2.bahanid,cart2.modelid)}>okay</Button>
                 </ModalFooter>
             </Modal>
             <div style={{fontSize:25}}>YOUR CART</div>

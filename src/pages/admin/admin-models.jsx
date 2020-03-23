@@ -25,7 +25,7 @@ function AdmModels () {
     const [msg,setmsg] = useState('')
 
     useEffect(()=>{
-        Axios.get(`${apiurl}/admin/getmod`)
+        Axios.get(`${apiurl}/admin/getmod/${cat}`)
         .then(res=>{
             setmodels(res.data)
             Axios.get(`${apiurl}/admin/getkat`)
@@ -45,70 +45,55 @@ function AdmModels () {
         setmoddlt(!moddlt)
     }
 
+    useEffect (()=>{
+        Axios.get(`${apiurl}/admin/getmod/${cat}`)
+        .then(res=>{
+            setmodels(res.data)
+        }).catch(err=>{
+            console.log(err)
+        })
+    },[cat])
+
+    const rendermenu=()=>{
+        return kategori.map((kat,index)=>{
+            return (
+                <div className='cat' key={index} onClick={()=>setcat(kat.id)}>
+                    {kat.name}
+                </div>
+            )
+        })
+    }
+
     const rendermaterial =()=>{
-        if(cat===0){// buat nanti kalo mau liat perkategori
-            if(models){
-                return models.map((val,index)=>{
-                    return (
-                        <Card key={index} elevation={7} style={{marginRight:'18px',marginLeft:'18px',marginBottom:'40px',width:200}}>
-                            <CardActionArea onClick={()=>localStorage.setItem('modelid',val.id)}>
-                                <Link to={{pathname:'/editmodel',id:val.id}}>
-                                    <CardMedia style={{height:0,paddingTop:'130%'}} image={val.path ? (val.path[0] === 'p' ? `${apiurl}/${val.path}` :val.path) :null} />
-                                </Link>
-                            </CardActionArea>
-                            <CardContent>
-                                <div>
-                                    <h5 className='card-title' style={{fontSize:'13px'}}>{val.name}</h5>
-                                </div>
-                                <div className='d-flex'>
-                                    <div>
-                                        {/* biar ke kanan */}
-                                    </div>
-                                    <div style={{marginLeft:'auto',marginBottom:-23,marginRight:-15,marginTop:-10}}>
-                                        <IconButton onClick={()=>localStorage.setItem('modelid',val.id)} component={Link} to={{pathname:'/editmodel',id:val.id}}>
-                                            <EditIcon style={{fontSize:'20'}} />
-                                        </IconButton>
-                                        <IconButton onClick={()=>openmoddlt(index,val.id)}>
-                                            <DeleteIcon style={{fontSize:'20'}} />
-                                        </IconButton>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    )
-                })
-            }
-        }else{
-            return models.map((val,index)=>{
-                if(val.kategoriid===cat){
-                    return (
-                        <Card key={index} elevation={7} style={{marginRight:'18px',marginLeft:'18px',marginBottom:'40px',width:200}}>
-                            <CardActionArea>
-                                <CardMedia style={{height:0,paddingTop:'130%'}} image={val.path} />
-                            </CardActionArea>
-                            <CardContent>
-                                <div>
-                                    <h5 className='card-title' style={{fontSize:'13px'}}>{val.name}</h5>
-                                </div>
-                                <div className='d-flex'>
-                                    <div>
-                                        {/* biar ke kanan */}
-                                    </div>
-                                    <div style={{marginLeft:'auto',marginBottom:-23,marginRight:-15,marginTop:-10}}>
-                                        <IconButton>
-                                            <EditIcon style={{fontSize:'20'}} />
-                                        </IconButton>
-                                        <IconButton>
-                                            <DeleteIcon style={{fontSize:'20'}} />
-                                        </IconButton>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    )
-                }
-            })
-        }
+        return models.map((val,index)=>{
+            return (
+                <Card key={index} elevation={7} style={{marginRight:'18px',marginLeft:'18px',marginBottom:'40px',width:200}}>
+                    <CardActionArea onClick={()=>localStorage.setItem('modelid',val.id)}>
+                        <Link to={{pathname:'/editmodel',id:val.id}}>
+                            <CardMedia style={{height:0,paddingTop:'130%'}} image={val.path ? (val.path[0] === 'p' ? `${apiurl}/${val.path}` :val.path) :'null'} />
+                        </Link>
+                    </CardActionArea>
+                    <CardContent>
+                        <div>
+                            <h5 className='card-title' style={{fontSize:'13px'}}>{val.name}</h5>
+                        </div>
+                        <div className='d-flex'>
+                            <div>
+                                {/* biar ke kanan */}
+                            </div>
+                            <div style={{marginLeft:'auto',marginBottom:-23,marginRight:-15,marginTop:-10}}>
+                                <IconButton onClick={()=>localStorage.setItem('modelid',val.id)} component={Link} to={{pathname:'/editmodel',id:val.id}}>
+                                    <EditIcon style={{fontSize:'20'}} />
+                                </IconButton>
+                                <IconButton onClick={()=>openmoddlt(index,val.id)}>
+                                    <DeleteIcon style={{fontSize:'20'}} />
+                                </IconButton>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            )
+        })
     }
 
     const renkat =()=>{
@@ -150,7 +135,7 @@ function AdmModels () {
     }
 
     return (
-        <div>
+        <div style={{width:'100%'}}>
 
             <Modal isOpen={modadd} toggle={()=>setmodadd(!modadd)}>
                 <ModalBody>
@@ -185,12 +170,20 @@ function AdmModels () {
                 </Modal>
             :null}
 
-            <div style={{marginTop:90}}>
-                <div style={{fontSize:'25px',marginBottom:25,marginLeft:50}}>
-                    MANAGE MODELS
+            <div style={{marginTop:90,width:'100%'}}>
+                <div className='d-flex align-items-end justify-content-end' style={{marginBottom:25}}>
+                    <div style={{fontSize:'25px',marginLeft:50}}>
+                        MANAGE MODELS
+                    </div>
+                    <div className='d-flex ml-auto mr-4'>
+                        <div className='cat' onClick={()=>setcat(0)}>
+                            ALL
+                        </div>
+                        {rendermenu()}
+                    </div>
                 </div>
                 <div className='row' style={{marginLeft:50,marginRight:0,overflow:'hidden'}}>
-                    <GridList cellHeight={335} style={{height:509}}>
+                    <GridList cellHeight={330} style={{height:509,width:'100%'}}>
                     {rendermaterial()}
                     <Card elevation={7} style={{marginRight:'18px',marginLeft:'18px',marginBottom:'40px',width:200}}>
                         <CardActionArea onClick={()=>setmodadd(!modadd)}>

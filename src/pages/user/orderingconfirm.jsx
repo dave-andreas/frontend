@@ -13,7 +13,7 @@ function Orderingconfirm ({order,stepaction,savecart}) {
     const harga = model && bahan ? ((model.harga + bahan.harga)*order.jumlah) :null
 
     useEffect(()=>{
-        Axios.get(`${apiurl}/user/confirm?userid=${order.userid}&modelid=${order.modelid}&bahanid=${order.bahanid}&bodysizeid=${order.bodysizeid?order.bodysizeid:0}`)
+        Axios.get(`${apiurl}/user/orderingcheck?userid=${order.userid}&modelid=${order.modelid}&bahanid=${order.bahanid}&bodysizeid=${order.bodysizeid?order.bodysizeid:0}`)
         .then(res=>{
             console.log(res.data)
             setmodel(res.data.model[0])
