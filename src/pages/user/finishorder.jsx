@@ -54,7 +54,7 @@ function Finishorder () {
             return (
                 <div className='d-flex my-2' key={index}>
                     <div style={{width:'20%'}}>
-                        <CardMedia style={{height:0,paddingTop:'130%'}} image={`${apiurl}/${detil.path}`}/>
+                        <CardMedia style={{height:0,paddingTop:'130%'}} image={detil.path ? (detil.path[0] === 'p' ? `${apiurl}/${detil.path}` :detil.path) : `null`}/>
                     </div>
                     <div>
                         <div className='ml-2 mb-2'>

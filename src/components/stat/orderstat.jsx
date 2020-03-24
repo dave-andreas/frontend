@@ -7,6 +7,7 @@ function Orderstat () {
     const [total,settotal] = useState()
     const [dipesan,setdipesan] = useState()
     const [stat,setstat] = useState([])
+    const [trafic,settrafic] = useState([])
     const [sumstat,setsumstat] = useState(0)
 
     const statordit = (stat) => {
@@ -35,6 +36,12 @@ function Orderstat () {
                 res.data.forEach(stat=>{
                     setsumstat(prev => prev += stat.jumlah)
                 })
+                Axios.get(`${apiurl}/admin/trafic`)
+                .then(res=>{
+                    settrafic(res.data)
+                }).catch(err=>{
+                    console.log(err)
+                })
             }).catch(err=>{
                 console.log(err)
             })
@@ -56,9 +63,26 @@ function Orderstat () {
         })
     }
 
+    const rentrafic = () => {
+        if (trafic.length){
+            return trafic.map((trafic,index)=>{
+                if(trafic.tanggalorder || trafic.tanggalbayar){
+                    return (
+                        <TableRow key={index}>
+                            <TableCell>{trafic.tanggalorder ? trafic.tanggalorder : trafic.tanggalbayar}</TableCell>
+                            <TableCell align='center'>{trafic.pesan ? trafic.pesan : 0}</TableCell>
+                            <TableCell align='center'>{trafic.bayar ? trafic.bayar : 0}</TableCell>
+                            <TableCell align='center'>Rp {trafic.jumlah ? trafic.jumlah : 0}</TableCell>
+                        </TableRow>
+                    )
+                }
+            })
+        }
+    }
+
     return (
         <div className='d-flex' style={{marginTop:20,marginBottom:40}}>
-            <div style={{width:'35%'}}>
+            <div style={{width:'40%'}}>
                 <div className='my-2' style={{fontSize:25}}>Total Number</div>
                 <TableContainer component={Paper} elevation={6}>
                     <Table size='small'>
@@ -74,8 +98,24 @@ function Orderstat () {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <div className='my-2 mt-4' style={{fontSize:25}}>Order Traffic</div>
+                <TableContainer component={Paper} elevation={6}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{fontWeight:'bold'}}>Date</TableCell>
+                                <TableCell align='center' style={{fontWeight:'bold'}}>Orders Count</TableCell>
+                                <TableCell align='center' style={{fontWeight:'bold'}}>Pay Count</TableCell>
+                                <TableCell align='center' style={{fontWeight:'bold'}}>Total Paid</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rentrafic()}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
-            <div className='ml-5' style={{width:'55%'}}>
+            <div className='ml-5' style={{width:'50%'}}>
                 <div className='my-2' style={{fontSize:25}}>Status Order</div>
                 <TableContainer component={Paper} elevation={6}>
                     <Table size='small'>

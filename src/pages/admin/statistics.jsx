@@ -13,7 +13,7 @@ function Statistics () {
         'Show statistic about users',
     ]
     const [anchorEl, setAnchorEl] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(2);
+    const [selectedIndex, setSelectedIndex] = useState(1);
     const handleClickListItem = event => {
         setAnchorEl(event.currentTarget);
     }

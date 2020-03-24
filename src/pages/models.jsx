@@ -30,7 +30,7 @@ function Models () {
     const [id,setid] = useState()
 
     useEffect (()=>{
-        Axios.get(`${apiurl}/admin/getmod/${cat}`)
+        Axios.get(`${apiurl}/admin/getmod/0`)
         .then(res=>{
             setmodels(res.data)
             Axios.get(`${apiurl}/admin/getkat`)
@@ -53,7 +53,7 @@ function Models () {
         })
     },[cat])
 
-    const [cari,setcari] = useState()
+    const [cari,setcari] = useState('') //hanya menambahkan petik, jadi ga ilang2an porduk nya
     const handle = e => {
         setcari(e.target.value)
     }
@@ -81,10 +81,10 @@ function Models () {
     const detil =(index,id)=>{
         setmodit(models[index])
         setid(id)
-        setmodal(!modal)
         Axios.get(`${apiurl}/admin/getgmb/${id}`)
         .then(res=>{
             setgambar(res.data)
+            setmodal(!modal)
         }).catch(err=>{
             console.log(err)
         })
