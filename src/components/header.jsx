@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import './header.css'
 import {Link} from 'react-router-dom'
-import {useSelector,useDispatch} from 'react-redux'
+import {connect} from 'react-redux'
 import {logout} from '../redux/action'
 
-function Header () {
-    const username = useSelector(state=>state.auth.username)
-    const role = useSelector(state=>state.auth.role)
-    const dispatch = useDispatch()
+function Header ({username,role,logout}) {
     const [a] = useState(localStorage.getItem('id'))
-
-    const logoutclick = () => {
-        dispatch(logout)
-        window.location.reload()
-    }
 
     if(a){
         return(
@@ -50,7 +42,7 @@ function Header () {
                             |
                         </div>
                         <Link to={'/'} style={{textDecoration:'none'}}>
-                            <div onClick={logoutclick} className='menukiri mt-2 mx-2' style={{fontWeight:'500'}}>LOGOUT</div>
+                            <div onClick={()=>logout()} className='menukiri mt-2 mx-2' style={{fontWeight:'500'}}>LOGOUT</div>
                         </Link>
                     </div>
                 </div>
@@ -90,4 +82,11 @@ function Header () {
     )
 }
 
-export default Header
+const statetoprops = ({auth}) => {
+    return {
+        username:auth.username,
+        role:auth.role
+    }
+}
+
+export default connect(statetoprops,{logout}) (Header)

@@ -3,17 +3,21 @@ import Axios from 'axios'
 import {Link} from 'react-router-dom'
 import {apiurl} from '../../helper/apiurl'
 
+import {connect} from 'react-redux'
+import {filteraction} from '../../redux/action'
+
 import {Paper,Table,TableHead,TableBody,TableRow,TableCell,TableContainer, IconButton, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core'
 import {Info} from '@material-ui/icons'
 
-function Orderlist () {
+function Orderlist ({fltr,filteraction}) {
     const [order,setorder] = useState([])
 
     useEffect(()=>{
-        Axios.get(`${apiurl}/admin/getorder?status=100`)
+        Axios.get(`${apiurl}/admin/getorder?status=${status}`)
         .then(res=>{
             console.log(res.data)
-            setorder(res.data)
+            setorder(res.data.result)
+            setopsi(res.data.result1)
         }).catch(err=>{
             console.log(err)
         })
@@ -30,7 +34,11 @@ function Orderlist () {
                     <TableCell align='center'>Rp {order.totharga}</TableCell>
                     <TableCell align='center'>{statorder(order.statusorder)}</TableCell>
                     <TableCell align='center'>
-                        <IconButton component={Link} to={{pathname:'/orderdetil'}} onClick={()=>localStorage.setItem('orderid',order.id)}>
+                        <IconButton component={Link} to={{pathname:'/orderdetil'}} 
+                        onClick={()=>{
+                            localStorage.setItem('orderid',order.id)
+                            // filteraction(status)
+                            }}>
                             <Info/>
                         </IconButton>
                     </TableCell>
@@ -58,15 +66,39 @@ function Orderlist () {
     const [status,setstatus] = useState(100)
     const handle = e => {
         setstatus(e.target.value)
+        // filteraction(e.target.value)
     }
-    useEffect(()=>{
+    useEffect (()=>{
         Axios.get(`${apiurl}/admin/getorder?status=${status}`)
+        .then(res=>{
+            setorder(res.data.result)
+        }).catch(err=>{
+            console.log(err)
+        })
+    },[status])
+
+
+    const [date,setdate] = useState(false)
+    const [tanggal,settanggal] = useState('')
+    const [opsi,setopsi] = useState([])
+    const handler = e => {
+        settanggal(e.target.value)
+    }
+    useEffect (()=>{
+        Axios.get(`${apiurl}/admin/cariorder?tanggal=${tanggal}`)
         .then(res=>{
             setorder(res.data)
         }).catch(err=>{
             console.log(err)
         })
-    },[status])
+    },[tanggal])
+    const renopsi = () => {
+        return opsi.map((opsi,index)=>{
+            return (
+                <MenuItem key={index} value={opsi.tanggalorder}>{opsi.tanggalorder}</MenuItem>
+            )
+        })
+    }
 
     return (
         <div style={{marginTop:90,marginBottom:'100px',paddingRight:80,paddingLeft:80,width:'100%'}}>
@@ -75,6 +107,15 @@ function Orderlist () {
                     ORDER LIST
                 </div>
                 <div className='ml-auto mr-4 mb-2' style={{width:'25%'}}>
+                    <FormControl  style={{width:'100%'}}>
+                        <InputLabel>Date</InputLabel>
+                        <Select name="filter" open={date} onClose={()=>{setdate(false)}} onOpen={()=>{setdate(true)}} onChange={handler}>
+                            <MenuItem value={''}><em>ALL LIST</em></MenuItem>
+                            {renopsi()}
+                        </Select>
+                    </FormControl>
+                </div>
+                <div className='mr-4 mb-2' style={{width:'25%'}}>
                     <FormControl  style={{width:'100%'}}>
                         <InputLabel>Filter</InputLabel>
                         <Select name="filter" open={filter} onClose={()=>{setfilter(false)}} onOpen={()=>{setfilter(true)}} onChange={handle} >
@@ -114,4 +155,10 @@ function Orderlist () {
     )
 }
 
-export default Orderlist
+const statetoprops = ({adm}) => {
+    return {
+        fltr:adm.filter
+    }
+}
+
+export default connect(statetoprops,{filteraction}) (Orderlist)

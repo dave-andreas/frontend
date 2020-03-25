@@ -145,11 +145,11 @@ function AdmModels () {
                     <select className='form-control' onChange={handler} name='kategoriid' style={{width:'100%', marginBottom:20}} >
                         {renkat()}
                     </select>
-                    <div style={{width:70}} className='mx-2'>
+                    {/* <div style={{width:70}} className='mx-2'>
                         <IconButton>
                             <AddIcon style={{fontSize:90,margin:-13}} />
                         </IconButton>
-                    </div>
+                    </div> */}
                 </ModalBody>
                 <ModalFooter>
                     <div style={{marginRight:30,color:'red',fontSize:'12px'}}>

@@ -11,13 +11,13 @@ import {connect} from 'react-redux'
 
 function Main ({admin}) {
 
-    const rencom = (admin) => {
+    const rencom = () => {
         switch (admin) {
             case 'models' : return <Models/>
             case 'fabrics' : return <Fabrics/>
             case 'orderlist' : return <Orderlist/>
             case 'statistics' : return <Statistics/>
-            default : return <Statistics/>
+            default : return <Models/>
         }
     }
 
@@ -26,7 +26,7 @@ function Main ({admin}) {
             <Header/>
             <div className='d-flex'>
                 <Sidemenu/>
-                {rencom(admin)}
+                {rencom()}
             </div>
         </div>
     )

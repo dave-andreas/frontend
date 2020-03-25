@@ -2,11 +2,11 @@ import {combineReducers} from 'redux'
 import authreducer from './authreducer'
 import admreducer from './admreducer'
 import orderingreducer from './orderingreducer'
-// import homereducer from './homereducer'
+import userreducer from './userreducer'
 
 export default combineReducers({
-    // homereducer,
     auth:authreducer,
     adm:admreducer,
-    ordering:orderingreducer
+    ordering:orderingreducer,
+    user:userreducer
 })

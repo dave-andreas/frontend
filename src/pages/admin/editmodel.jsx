@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Axios from 'axios'
 import {Redirect} from 'react-router-dom'
 import {apiurl} from '../../helper/apiurl'
+import Header from '../../components/header'
 
 import {IconButton,CardMedia,Button,TextField,Select,MenuItem,InputLabel,FormControl,Chip} from '@material-ui/core'
 import {Edit,Delete,Save,Add} from '@material-ui/icons'
@@ -15,7 +16,6 @@ import MobileStepper from '@material-ui/core/MobileStepper'
 
 import {Modal,ModalHeader,ModalBody,ModalFooter,CustomInput} from 'reactstrap'
 
-import Header from '../../components/header'
 
 
 function Editmodel ({location}) {

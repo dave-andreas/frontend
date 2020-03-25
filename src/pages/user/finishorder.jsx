@@ -10,13 +10,15 @@ import {Paper,Button,CardMedia,TextField} from '@material-ui/core'
 function Finishorder () {
     const [order,setorder] = useState({})
     const [detil,setdetil] = useState([])
+    const [komen,setkomen] = useState([])
 
     useEffect (()=>{
-        Axios.get(`${apiurl}/user/finishorder/${localStorage.getItem('orderid')}`)
+        Axios.get(`${apiurl}/user/finishorder?id=${localStorage.getItem('orderid')}&userid=${localStorage.getItem('id')}`)
         .then(res=>{
             console.log(res.data)
             setorder(res.data.order[0])
             setdetil(res.data.detil)
+            setkomen(res.data.komen)
         }).catch(err=>{
             console.log(err)
         })
@@ -38,8 +40,6 @@ function Finishorder () {
     }
 
     const confirm = () => {
-        // console.log(localStorage.getItem('orderid'),7)
-        // setorder({...order,statusorder:7})
         Axios.post(`${apiurl}/user/confirm?orderid=${localStorage.getItem('orderid')}&statusorder=7`)
         .then(res=>{
             setorder(res.data.order[0])
@@ -57,7 +57,7 @@ function Finishorder () {
                         <CardMedia style={{height:0,paddingTop:'130%'}} image={detil.path ? (detil.path[0] === 'p' ? `${apiurl}/${detil.path}` :detil.path) : `null`}/>
                     </div>
                     <div>
-                        <div className='ml-2 mb-2'>
+                        <div className='ml-4 mb-2'>
                             <div>
                                 <em style={{fontWeight:'bold'}}>{detil.model.toUpperCase()}</em><code> with </code><strong>{detil.warna} {detil.bahan}</strong>
                             </div>
@@ -71,6 +71,28 @@ function Finishorder () {
         })
     }
 
+    const [data,setdata] = useState({})
+    const [warn,setwarn] = useState('')
+    const handler = e => {
+        const {name,value} = e.target
+        setdata({...data, [name]:value, modelid:detil[0].modelid, userid:localStorage.getItem('id'), orderid:localStorage.getItem('orderid')})
+        console.log(data)
+    }
+    const submit = () => {
+        if (data.komen) {
+            Axios.post(`${apiurl}/user/addkomen`,data)
+            .then(res=>{
+                console.log(res.data)
+                setkomen(res.data)
+                setwarn('')
+            }).catch(err=>{
+                console.log(err)
+            })
+        } else {
+            setwarn('you dont type a comment yet')
+        }
+    }
+
     return (
         <div>
             <Header/>
@@ -82,7 +104,7 @@ function Finishorder () {
                             <div className='ml-4' style={{width:'20%'}}>
                                 <CardMedia style={{height:0,paddingTop:'130%'}} image={order.buktibayar ? `${apiurl}/${order.buktibayar}` :'notfoun'}/>
                             </div>
-                            <div className='ml-3 MT-2'>
+                            <div className='ml-4'>
                                 <div className='mb-2'>
                                     <div style={{fontSize:11}}>ORDER DATE :</div>
                                     <strong>{order.tanggalorder}</strong>
@@ -118,15 +140,24 @@ function Finishorder () {
                         :null}
                     </div>
                     {order.statusorder === 7 ?
-                    <Paper elevation={5} className='mb-3' style={{width:'100%'}}>
-                        <div className='d-flex px-2'>
-                            <div className='m-2' style={{fontSize:25}}>How do you feel ?</div>
-                            <Button className='ml-auto'>Submit</Button>
-                        </div>
-                        <div className='m-3'>
-                            <TextField variant='outlined' label="Give us a nice comment :)" multiline rows="4" placeholder="type here" style={{widt:'100%'}} fullWidth />
-                        </div>
-                    </Paper>
+                        komen.length ? 
+                        <Paper elevation={5} className='mb-3' style={{width:'100%'}}>
+                            <div className='m-3' style={{fontSize:25}}>You already have a comment on this</div>
+                            <div className='mx-3 mb-3' style={{border:'solid 1px #d1cada'}} />
+                            <div className='m-3'><strong>you</strong> {komen[0].komen}</div>
+                        </Paper>
+                        :
+                        <Paper elevation={5} className='mb-3' style={{width:'100%'}}>
+                            <div className='m-3' style={{fontSize:25}}>How do you feel ?</div>
+                            <div className='m-3'>
+                                <TextField variant='outlined' label="Give us a nice comment :)" multiline rows="4" placeholder="type here" fullWidth
+                                name='komen' onChange={handler} />
+                            </div>
+                            <div className='d-flex justify-content-end m-3 align-items-center'>
+                                <div className='mr-2' style={{fontSize:12,color:'red'}}>{warn}</div>
+                                <Button variant='contained' color='primary' size='small' onClick={()=>submit()}>Submit</Button>
+                            </div>
+                        </Paper>
                     :null}
                 </div>
             </div>

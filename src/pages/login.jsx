@@ -44,7 +44,7 @@ function Login () {
                         <input onChange={loginhandle} name='username' type='text' className='from-control' style={{border:'transparent', width:'100%'}} placeholder='username'></input>
                     </div>
                     <div className='mb-3' style={{borderBottom:'black solid 1px', width:'90%'}}>
-                        <input onChange={loginhandle} name='password' className='from-control' style={{border:'transparent', width:'100%'}} placeholder='password'></input>
+                        <input onChange={loginhandle} name='password' type='password' className='from-control' style={{border:'transparent', width:'100%'}} placeholder='password'></input>
                     </div>
                 </div>
                 <div className='mb-3'>

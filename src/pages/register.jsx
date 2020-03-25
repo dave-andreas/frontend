@@ -59,10 +59,10 @@ function Register () {
                         <input onChange={regishandle} name='username' type='text' className='from-control' style={{border:'transparent', width:'100%'}} placeholder='username'></input>
                     </div>
                     <div className='mb-3' style={{borderBottom:'black solid 1px', width:'90%'}}>
-                        <input onChange={regishandle} name='password' type='text' className='from-control' style={{border:'transparent', width:'100%'}} placeholder='password'></input>
+                        <input onChange={regishandle} name='password' type='password' className='from-control' style={{border:'transparent', width:'100%'}} placeholder='password'></input>
                     </div>
                     <div className='mb-3' style={{borderBottom:'black solid 1px', width:'90%'}}>
-                        <input onChange={regishandle} name='repassword' type='text' className='from-control' style={{border:'transparent', width:'100%'}} placeholder='re-enter password'></input>
+                        <input onChange={regishandle} name='repassword' type='password' className='from-control' style={{border:'transparent', width:'100%'}} placeholder='re-enter password'></input>
                     </div>
                     {/* <div style={{color:'red'}}>{message}</div> */}
                     {msg?<div style={{color:'red'}}>{msg}</div>:null}

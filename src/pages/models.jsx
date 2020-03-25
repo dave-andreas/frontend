@@ -78,12 +78,18 @@ function Models () {
     };
 
     const [modit,setmodit] = useState({})
+    const [bahan,setbahan] = useState([])
+    const [komen,setkomen] = useState([])
     const detil =(index,id)=>{
+        console.log(id)
         setmodit(models[index])
         setid(id)
         Axios.get(`${apiurl}/admin/getgmb/${id}`)
         .then(res=>{
-            setgambar(res.data)
+            setgambar(res.data.gambar)
+            setbahan(res.data.bahan)
+            setkomen(res.data.komen)
+            console.log(res.data.komen)
             setmodal(!modal)
         }).catch(err=>{
             console.log(err)
@@ -127,7 +133,7 @@ function Models () {
             <Modal isOpen={modal} toggle={()=>{setmodal(!modal);setActiveStep(0)}} size='lg'>
                 <ModalBody>
                     <div className='d-flex mr-4'>
-                        <div style={{marginLeft:-16,marginTop:-16,marginBottom:-16,marginRight:40,maxWidth:360}}>
+                        <div style={{marginLeft:-14,marginTop:-14,marginBottom:-14,marginRight:40,maxWidth:360}}>
                             <SwipeableViews
                             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                             index={activeStep}
@@ -157,17 +163,36 @@ function Models () {
                             />
                         </div>
                         <div className='d-flex flex-column' style={{width:400}}>
-                            <div>
-                                <h3>{modit.name}</h3>
-                                <div className='my-4' style={{borderBottomColor:'black',width:'100%',border:'solid',borderWidth:2}}/>
-                                <div>
+                            <div >
+                                <h2>{modit.name}</h2>
+                                <div className='mt-2 mb-4' style={{borderBottomColor:'black',width:'100%',border:'solid',borderWidth:2}}/>
+                                <div className='mb-3' >
                                     {modit.desk}
                                 </div>
+                                <div className='mb-3'>
+                                    Available Fabric : <br/>
+                                    {bahan.map((bahan,index)=>{
+                                        return (
+                                            <div key={index}>- {bahan.name}, <em>Rp {bahan.harga}/set</em></div>
+                                        )
+                                    })}
+
+                                </div>
+                                <div className='d-flex justify-content-end mb-5'><strong>Rp {modit.harga}</strong>/set</div>
+                                <div className='mb-3' style={{width:'100%',border:'solid 1px #d1cada'}}/>
+                                <div className='mt-3'>
+                                    <div><h5>Reveiw ({komen.length})</h5></div>
+                                    {komen.length ?
+                                    komen.map((komen,index)=>{
+                                        return <div key={index}><strong>{komen.username}</strong> {komen.komen}</div>
+                                    })
+                                    :<div>no comment yet</div>}
+                                </div>
                             </div>
-                            <div className='d-flex justify-content-end mt-auto'>
-                                <IconButton>
+                            <div className='d-flex justify-content-end mt-auto' >
+                                {/* <IconButton>
                                     <Favorite color='secondary' fontSize='large' style={{marginRight:10}} />
-                                </IconButton>
+                                </IconButton> */}
                                 <Button variant='contained' color='primary' size='large' component={Link} to={{pathname:'/ordering'}} style={{color:'white'}} onClick={()=>localStorage.setItem('modelid',id)}>Get it!</Button>
                             </div>
                         </div>

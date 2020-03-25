@@ -14,25 +14,25 @@ function Sidemenu ({menuaction}) {
                     Admin Dashboard
                 </div>
             </IconButton>
-            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('MODELS')}>
+            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('models')}>
                 <Palette/>
                 <div style={{marginLeft:10, fontSize:15}}>
                     Models
                 </div>
             </IconButton>
-            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('FABRICS')}>
+            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('fabrics')}>
                 <Waves/>
                 <div style={{marginLeft:10, fontSize:15}}>
                     Fabrics
                 </div>
             </IconButton>
-            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('ORDERLIST')}>
+            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('orderlist')}>
                 <ListAlt/>
                 <div style={{marginLeft:10, fontSize:15}}>
                     Order List
                 </div>
             </IconButton>
-            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('STATISTICS')}>
+            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('statistics')}>
                 <Equalizer/>
                 <div style={{marginLeft:10, fontSize:15}}>
                     Statistics

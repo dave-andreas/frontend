@@ -1,75 +1,78 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Header from '../../components/header'
+import Cart from '../../components/profile-setting/cart'
 import Infosetting from '../../components/profile-setting/info-setting'
 import Bodysize from '../../components/profile-setting/body-size'
-import Accountinfo from '../../components/profile-setting/account-info'
 import Orderstatus from '../../components/profile-setting/order-status'
-import Savedproduct from '../../components/profile-setting/saved-product'
-import Cart from '../../components/profile-setting/cart'
+// import Accountinfo from '../../components/profile-setting/account-info'
+// import Savedproduct from '../../components/profile-setting/saved-product'
+
+import {connect} from 'react-redux'
+import {dashaction} from '../../redux/action'
 
 import {IconButton} from '@material-ui/core'
-import {Settings,ListAlt,ShoppingCart,Person,Accessibility,Lock,Favorite} from '@material-ui/icons'
+import {Settings,ListAlt,ShoppingCart,Person,Accessibility} from '@material-ui/icons'
 
-function content (x) {
-    switch (x) {
-        case 1 : return <Cart/>
-        case 2 : return <Infosetting/>
-        case 3 : return <Bodysize/>
-        case 4 : return <Accountinfo/>
-        case 5 : return <Orderstatus/>
-        case 6 : return <Savedproduct/>
-        default : return <Cart/>
+
+function Profile ({dash,dashaction}) {
+
+    function content () {
+        switch (dash) {
+            case 1 : return <Cart/>
+            case 2 : return <Infosetting/>
+            case 3 : return <Bodysize/>
+            case 4 : return <Orderstatus/>
+            // case 5 : return <Accountinfo/>
+            // case 6 : return <Savedproduct/>
+            default : return <Cart/>
+        }
     }
-}
-
-function Profile () {
-    const [part,setpart] = useState()
 
     const dashboard = () => {
         return (
             <div style={{position:'sticky',minWidth:230,display:'flex',flexDirection:'column'}}>
-                <IconButton style={{marginLeft:15,marginBottom:30,marginTop:5,justifyContent:'flex-start'}} onClick={()=>setpart(0)}>
+                <IconButton style={{marginLeft:15,marginBottom:30,marginTop:5,justifyContent:'flex-start'}} onClick={()=>dashaction(1)}>
                     <Settings/>
                     <div style={{marginLeft:10, fontSize:15,justifyContent:'flex-start',fontWeight:'bolder'}}>
                         Your Dashboard
                     </div>
                 </IconButton>
-                <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>setpart(1)}>
+                <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>dashaction(1)}>
                     <ShoppingCart/>
                     <div style={{marginLeft:10, fontSize:15}}>
                         Cart
                     </div>
                 </IconButton>
-                <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>setpart(2)}>
+                <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>dashaction(2)}>
                     <Person/>
                     <div style={{marginLeft:10, fontSize:15}}>
                         Info Setting
                     </div>
                 </IconButton>
-                <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>setpart(3)}>
+                <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>dashaction(3)}>
                     <Accessibility/>
                     <div style={{marginLeft:10, fontSize:15}}>
                         Body Size
                     </div>
                 </IconButton>
-                <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>setpart(4)}>
-                    <Lock/>
-                    <div style={{marginLeft:10, fontSize:15}}>
-                        Account Info
-                    </div>
-                </IconButton>
-                <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>setpart(5)}>
+                <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>dashaction(4)}>
                     <ListAlt/>
                     <div style={{marginLeft:10, fontSize:15}}>
                         Order Status
                     </div>
                 </IconButton>
-                <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>setpart(6)}>
+                {/* <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>dashaction(5)}>
+                    <Lock/>
+                    <div style={{marginLeft:10, fontSize:15}}>
+                        Account Info
+                    </div>
+                </IconButton> */}
+                {/* <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>dashaction(6)}>
                     <Favorite/>
                     <div style={{marginLeft:10, fontSize:15}}>
                         Saved Product
                     </div>
-                </IconButton>
+                </IconButton> */}
             </div>
         )
     }
@@ -80,11 +83,17 @@ function Profile () {
             <div className='d-flex' style={{marginTop:80}}>
                 {dashboard()}
                 <div style={{width:'100%'}}>
-                    {content(part)}
+                    {content()}
                 </div>
             </div>
         </div>
     )
 }
 
-export default Profile
+const statetoprops = ({user}) => {
+    return {
+        dash:user.dashboard
+    }
+}
+
+export default connect(statetoprops,{dashaction}) (Profile)
