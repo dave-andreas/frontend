@@ -3,6 +3,7 @@ import './models.css'
 import Axios from 'axios';
 import {apiurl} from '../helper/apiurl'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 import {Favorite} from '@material-ui/icons'
 import {Card, CardActionArea, CardContent, CardMedia, Button, IconButton} from '@material-ui/core'
@@ -17,7 +18,7 @@ import Header from '../components/header'
 import Footer from '../components/footer'
 import img3 from '../gambar/photo-128278505_1.jpg'
 
-function Models () {
+function Models ({role}) {
     const [kat,setkat] = useState([])
     const [models,setmodels] = useState([])
     const [cat,setcat] = useState(0)
@@ -193,7 +194,10 @@ function Models () {
                                 {/* <IconButton>
                                     <Favorite color='secondary' fontSize='large' style={{marginRight:10}} />
                                 </IconButton> */}
+                                {role === 'user' ? 
                                 <Button variant='contained' color='primary' size='large' component={Link} to={{pathname:'/ordering'}} style={{color:'white'}} onClick={()=>localStorage.setItem('modelid',id)}>Get it!</Button>
+                                : role === 'admin' ? null
+                                : <Button variant='contained' color='primary' size='large' component={Link} to={{pathname:'/login'}} style={{color:'white'}}>Login First</Button>}
                             </div>
                         </div>
                     </div>
@@ -223,4 +227,10 @@ function Models () {
     )
 }
 
-export default Models
+const statetoprop = ({auth}) => {
+    return {
+        role:auth.role
+    }
+}
+
+export default connect (statetoprop) (Models)

@@ -43,9 +43,8 @@ function Home () {
                     </CardActionArea>
                     <CardContent>
                         <div className='d-flex'>
-                            <h5 className='card-title' style={{fontSize:'13px'}}>{val.name}</h5>
+                            <div><h6>{val.name}</h6></div>
                         </div>
-                        <div>Rp {val.harga},00</div>
                     </CardContent>
                 </Card>
             )
@@ -63,9 +62,8 @@ function Home () {
                     </CardActionArea>
                     <CardContent>
                         <div className='d-flex'>
-                            <h5 className='card-title' style={{fontSize:'13px'}}>{val.name}</h5>
+                            <div><h6>{val.name}</h6></div>
                         </div>
-                        <div>Rp {val.harga},00</div>
                     </CardContent>
                 </Card>
             )

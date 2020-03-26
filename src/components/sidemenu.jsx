@@ -1,6 +1,6 @@
 import React from 'react';
 import {IconButton} from '@material-ui/core'
-import {Settings,Waves,Palette,ListAlt, Equalizer} from '@material-ui/icons'
+import {Settings,Waves,Palette,ListAlt,Equalizer,SupervisorAccount} from '@material-ui/icons'
 
 import {connect} from 'react-redux'
 import {menuaction} from '../redux/action'
@@ -29,13 +29,19 @@ function Sidemenu ({menuaction}) {
             <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('orderlist')}>
                 <ListAlt/>
                 <div style={{marginLeft:10, fontSize:15}}>
-                    Order List
+                    Orders List
                 </div>
             </IconButton>
             <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('statistics')}>
                 <Equalizer/>
                 <div style={{marginLeft:10, fontSize:15}}>
                     Statistics
+                </div>
+            </IconButton>
+            <IconButton style={{marginLeft:15,justifyContent:'flex-start'}} onClick={()=>menuaction('userslist')}>
+                <SupervisorAccount/>
+                <div style={{marginLeft:10, fontSize:15}}>
+                    Users List
                 </div>
             </IconButton>
         </div>

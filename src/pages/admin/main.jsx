@@ -4,6 +4,7 @@ import Models from './admin-models'
 import Fabrics from './admin-fabrics'
 import Orderlist from './orderlist'
 import Statistics from './statistics'
+import Userslist from './userslist'
 import Sidemenu from '../../components/sidemenu'
 import Header from '../../components/header'
 
@@ -17,6 +18,7 @@ function Main ({admin}) {
             case 'fabrics' : return <Fabrics/>
             case 'orderlist' : return <Orderlist/>
             case 'statistics' : return <Statistics/>
+            case 'userslist' : return <Userslist/>
             default : return <Models/>
         }
     }

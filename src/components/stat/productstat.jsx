@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react'
 import Axios from 'axios'
-import { TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, CardMedia, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
+import { TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, CardMedia, FormControl, InputLabel, Select, MenuItem, TextField } from '@material-ui/core'
 import { apiurl } from '../../helper/apiurl'
 
 function Productstat () {
@@ -8,7 +8,7 @@ function Productstat () {
     const [pickfab,setpickfab] = useState([])
 
     useEffect(()=>{
-        Axios.get(`${apiurl}/admin/sellmod?sort=terjual`)
+        Axios.get(`${apiurl}/admin/sellmod?sort=terjual&limit=10`)
         .then(res=>{
             setsellmod(res.data)
             Axios.get(`${apiurl}/admin/pickfab`)
@@ -43,17 +43,21 @@ function Productstat () {
 
     const [opensort,setopensort] = useState(false)
     const [sort,setsort] = useState('terjual')
+    const [limit,setlimit] = useState(10)
     const handle = e => {
         setsort(e.target.value)
     }
+    const handle1 = e => {
+        setlimit(e.target.value)
+    }
     useEffect(()=>{
-        Axios.get(`${apiurl}/admin/sellmod?sort=${sort}`)
+        Axios.get(`${apiurl}/admin/sellmod?sort=${sort}&limit=${limit}`)
         .then(res=>{
             setsellmod(res.data)
         }).catch(err=>{
             console.log(err)
         })
-    },[sort])
+    },[sort,limit])
 
     const renpickfab = () => {
         return pickfab.map((pickfab,index)=>{
@@ -76,7 +80,12 @@ function Productstat () {
             <div style={{width:'60%'}}>
                 <div className='d-flex'>
                     <div className='my-2' style={{fontSize:25}}>Most Popular Models</div>
-                    <div className='ml-auto my-2 mr-2' style={{width:'20%'}}>
+                    <div className='ml-auto my-2 mr-3' style={{width:'10%'}}>
+                        <FormControl style={{width:'100%'}}>
+                            <TextField fullWidth type='number' name="limit" onChange={handle1} defaultValue={limit} label='Limit' />
+                        </FormControl>
+                    </div>
+                    <div className='my-2 mr-2' style={{width:'20%'}}>
                         <FormControl  style={{width:'100%'}}>
                             <InputLabel>Order by</InputLabel>
                             <Select name="sort" open={opensort} onClose={()=>{setopensort(false)}} onOpen={()=>{setopensort(true)}} onChange={handle} value={sort} >

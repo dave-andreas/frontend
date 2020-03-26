@@ -190,6 +190,13 @@ function Orderdetil () {
                         </div>
                     </Paper>
                     <Button variant='contained' color='inherit' component={Link} to={'/main'} onClick={()=>localStorage.removeItem('orderid')}>Back to dashboard</Button>
+                    <Paper elevation={5} className='mb-3' style={{width:'100%'}}>
+                        <div className='m-3' style={{fontSize:25}}>User's Review</div>
+                        <div className='mx-3 mb-3' style={{border:'solid 1px #d1cada'}} />
+                        {order.komen ? 
+                        <div className='m-3'><strong>{order.username}</strong> {order.komen}</div>
+                        : <div className='m-3'>no comment yet</div> }
+                    </Paper>
                 </div>
             </div>
         </div>

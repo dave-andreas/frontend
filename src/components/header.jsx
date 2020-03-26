@@ -58,12 +58,16 @@ function Header ({username,role,logout}) {
                             HOME
                         </div>
                     </Link>
-                    <div className='menukiri'>
-                        MODELS
-                    </div>
-                    <div className='menukiri'>
-                        ABOUT
-                    </div>
+                    <Link to={'/models'} style={{textDecoration:'none'}}>
+                        <div className='menukiri'>
+                            MODELS
+                        </div>
+                    </Link>
+                    <Link to={role === 'admin' ? '/' : '/'} style={{textDecoration:'none'}}>
+                        <div className='menukiri'>
+                            ABOUT
+                        </div>
+                    </Link>
                 </div>
                 <div className='logo'>
                     jAHiTiN.
