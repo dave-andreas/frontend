@@ -205,21 +205,23 @@ function Models ({role}) {
             </Modal>
             <div className='boxhead gmb0'>
                 <img src={img3} alt='' width='100%' />
-                <div className='txt0'>
+                {/* <div className='txt0'>
                     <div className='txt1'>
                         <div style={{marginLeft:'50px'}}>It start ...</div>
                         <div style={{marginLeft:'100px'}}>with you</div>
                     </div>
-                </div>
+                </div> */}
             </div>
-            <div className='d-flex' style={{justifyContent:'center',marginLeft:'200px',marginRight:'200px',marginBottom:'40px'}}>
-                <div className='cat' onClick={()=>setcat(0)}>
-                    ALL
+            <div className='d-flex align-items-center' style={{justifyContent:'center',marginLeft:'10%',marginRight:'10%',marginBottom:'40px'}}>
+                <div className='d-flex flex-wrap'>
+                    <div className='cat' onClick={()=>setcat(0)}>
+                        ALL
+                    </div>
+                    {rendermenu()}
                 </div>
-                {rendermenu()}
                 <input type='text' placeholder='find here' onChange={handle} style={{marginLeft:'auto'}}/>
             </div>
-            <div className='row' style={{marginLeft:'200px',marginRight:'200px'}}>
+            <div className='d-flex flex-wrap justify-content-center' style={{marginLeft:'10%',marginRight:'10%'}}>
                 {rendermaterial()}
             </div>
             <Footer/>

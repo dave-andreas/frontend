@@ -38,7 +38,7 @@ function Login () {
         <div>
             <Header/>
             <center>
-                <div className='kotak-regis mb-4' style={{marginTop:'150px'}}>
+                <div className='kotak-regis mb-4' style={{marginTop:'80px'}}>
                     <h2 className='mb-4'>Login</h2>
                     <div className='mb-3' style={{borderBottom:'black solid 1px', width:'85%'}}>
                         <input onChange={loginhandle} name='username' type='text' className='from-control' style={{border:'transparent', width:'100%'}} placeholder='username'></input>

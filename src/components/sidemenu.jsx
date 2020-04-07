@@ -7,7 +7,7 @@ import {menuaction} from '../redux/action'
 
 function Sidemenu ({menuaction}) {
     return (
-        <div style={{marginTop:80,position:'sticky',minWidth:230,display:'flex',flexDirection:'column'}}>
+        <div style={{position:'sticky',minWidth:230,display:'flex',flexDirection:'column'}}>
             <IconButton style={{marginLeft:15,marginBottom:30,marginTop:5,justifyContent:'flex-start'}}>
                 <Settings/>
                 <div style={{marginLeft:10, fontSize:15,justifyContent:'flex-start',fontWeight:'bolder'}}>

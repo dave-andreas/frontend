@@ -162,7 +162,7 @@ function AdmFabrics () {
                 </Modal>
             : null}
             
-            <div style={{marginTop:90,marginBottom:'100px',paddingRight:100,paddingLeft:100}}>
+            <div style={{marginTop:10,marginBottom:'100px',paddingRight:100,paddingLeft:100}}>
                 <div style={{fontSize:'25px',marginBottom:'20px'}}>
                     MANAGE FABRICS
                 </div>

@@ -1,32 +1,26 @@
 import React from 'react';
 import './footer.css'
+import {IconButton} from '@material-ui/core'
 import {Facebook,Instagram,Phone} from '@material-ui/icons'
 
 function Footer () {
     return (
         <div>
-            <div className='footer'>
-                <center>
-                    <div className='d-flex px-5'>
-                        {/* <div className='ml-3' style={{marginRight:'auto'}}>
-                            INI FOOTER ... UDAH GITU AJA
-                        </div> */}
-                        <div className='ml-5 pilih'>
-                            Carrer
-                        </div>
-                        <div className='ml-4 pilih'>
-                            Call us
-                        </div>
-                        <div className='ml-4 pilih'>
-                            About us
-                        </div>
-                        <div className='mr-5' style={{marginLeft:'auto'}}>
-                            <Facebook className='mx-1 pilih'/>
-                            <Instagram className='mx-1 pilih'/>
-                            <Phone className='mx-1 pilih'/>
-                        </div>
-                    </div>
-                </center>
+            <div className='d-flex mt-5 px-5 py-4 align-items-center' style={{backgroundColor:'#141625',color:'white'}}>
+                <div className='ml-5' style={{cursor:'pointer'}}>
+                    Carrer
+                </div>
+                <div className='ml-4' style={{cursor:'pointer'}}>
+                    Call us
+                </div>
+                <div className='ml-4' style={{cursor:'pointer'}}>
+                    About us
+                </div>
+                <div className='mr-5 ml-auto'>
+                    <IconButton><Facebook style={{color:'white'}} /></IconButton>
+                    <IconButton><Instagram style={{color:'white'}} /></IconButton>
+                    <IconButton><Phone style={{color:'white'}} /></IconButton>
+                </div>
             </div>
         </div>
     )

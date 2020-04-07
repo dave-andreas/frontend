@@ -97,7 +97,7 @@ function Finishorder () {
         <div>
             <Header/>
             <div className='d-flex justify-content-center'>
-                <div className='d-flex flex-column align-items-end' style={{marginTop:100,width:'40%'}}>
+                <div className='d-flex flex-column align-items-end' style={{marginTop:20,width:'40%'}}>
                     <Paper elevation={5} className='mb-3' style={{width:'100%'}}>
                         <div className='m-3 pl-2' style={{borderBottom:'1px dashed',fontSize:25}}>Did you get your order ?</div>
                         <div className='d-flex mb-3'>

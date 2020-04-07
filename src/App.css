@@ -1,8 +1,14 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
 /* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); */
 @import url('https://fonts.googleapis.com/css?family=Bebas+Neue|Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gotu&display=swap');
 
 body{
-  font-family: 'Bebas Neue', cursive;
+  font-family: 'Gotu', sans-serif;
 }
 
 .App {

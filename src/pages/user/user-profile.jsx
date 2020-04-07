@@ -80,7 +80,7 @@ function Profile ({dash,dashaction}) {
     return (
         <div>
             <Header/>
-            <div className='d-flex' style={{marginTop:80}}>
+            <div className='d-flex'>
                 {dashboard()}
                 <div style={{width:'100%'}}>
                     {content()}

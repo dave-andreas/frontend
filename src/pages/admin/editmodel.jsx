@@ -219,7 +219,7 @@ function Editmodel ({location}) {
                 </ModalFooter>
             </Modal>
 
-            <div className='d-flex justify-content-center' style={{marginTop:80}}>
+            <div className='d-flex justify-content-center'>
                 <div style={{width:'80%'}}>
                     <div className='d-flex justify-content-between' style={{width:'100%',fontSize:30,paddingLeft:30,paddingRight:20}}>
                         {model.name?

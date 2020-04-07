@@ -101,7 +101,7 @@ function Orderlist ({fltr,filteraction}) {
     }
 
     return (
-        <div style={{marginTop:90,marginBottom:'100px',paddingRight:80,paddingLeft:80,width:'100%'}}>
+        <div style={{marginTop:10,marginBottom:'100px',paddingRight:80,paddingLeft:80,width:'100%'}}>
             <div className='d-flex align-items-end'>
                 <div style={{fontSize:'25px',marginBottom:'40px'}}>
                     ORDER LIST

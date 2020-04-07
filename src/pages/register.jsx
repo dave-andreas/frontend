@@ -47,7 +47,7 @@ function Register () {
         <div>
             <Header/>
             <center>
-                <div className='kotak-regis mb-4' style={{marginTop:'150px'}}>
+                <div className='kotak-regis mb-4' style={{marginTop:'80px'}}>
                     <h2>Registration</h2>
                     <div style={{width:'85%'}}>
                     <div className='mt-4 mb-4' style={{fontWeight:'400'}}>

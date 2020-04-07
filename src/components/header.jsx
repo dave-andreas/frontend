@@ -10,28 +10,19 @@ function Header ({username,role,logout}) {
     if(a){
         return(
             <div>
-                <div className='header-container'>
-                    <div className='menu-kiri'>
-                        <Link to={'/'} style={{textDecoration:'none'}} >
-                            <div className='menukiri'>
-                                HOME
-                            </div>
+                <div className='d-flex p-3 justify-content-between align-items-center'>
+                    <div className='d-flex'>
+                        <Link to={'/'} className='mx-3 mt-1' style={{textDecoration:'none',color:'black'}}>
+                            <h5>HOME</h5>
                         </Link>
-                        <Link to={'/models'} style={{textDecoration:'none'}}>
-                            <div className='menukiri'>
-                                MODELS
-                            </div>
+                        <Link to={'/models'} className='mx-3 mt-1' style={{textDecoration:'none',color:'black'}}>
+                            <h5>MODELS</h5>
                         </Link>
-                        <Link to={role === 'admin' ? '/' : '/'} style={{textDecoration:'none'}}>
-                            <div className='menukiri'>
-                                ABOUT
-                            </div>
+                        <Link to={'/'} className='mx-3 mt-1' style={{textDecoration:'none',color:'black'}}>
+                            <h5>ABOUT</h5>
                         </Link>
                     </div>
-                    <div className='logo'>
-                        jAHiTiN.
-                        {username}
-                    </div>
+                    <h2>jAHiTiN.</h2>
                     <div className='menu-kanan'>
                         <Link to={role === 'admin' ? '/main' : '/profile'} style={{textDecoration:'none'}}>
                             <div className='menukiri mt-2' style={{fontWeight:'bold'}}>
@@ -51,29 +42,20 @@ function Header ({username,role,logout}) {
     }
     return(
         <div>
-            <div className='header-container'>
-                <div className='menu-kiri'>
-                    <Link to={'/'} style={{textDecoration:'none'}} >
-                        <div className='menukiri'>
-                            HOME
-                        </div>
+            <div className='d-flex p-3 justify-content-between align-items-center'>
+                <div className='d-flex'>
+                    <Link to={'/'} className='mx-3 mt-1' style={{textDecoration:'none',color:'black'}}>
+                        <h5>HOME</h5>
                     </Link>
-                    <Link to={'/models'} style={{textDecoration:'none'}}>
-                        <div className='menukiri'>
-                            MODELS
-                        </div>
+                    <Link to={'/models'} className='mx-3 mt-1' style={{textDecoration:'none',color:'black'}}>
+                        <h5>MODELS</h5>
                     </Link>
-                    <Link to={role === 'admin' ? '/' : '/'} style={{textDecoration:'none'}}>
-                        <div className='menukiri'>
-                            ABOUT
-                        </div>
+                    <Link to={'/'} className='mx-3 mt-1' style={{textDecoration:'none',color:'black'}}>
+                        <h5>ABOUT</h5>
                     </Link>
                 </div>
-                <div className='logo'>
-                    jAHiTiN.
-                    {username}
-                </div>
-                <div className='menu-kanan'>
+                <h2>jAHiTiN.</h2>
+                <div className='d-flex'>
                     <Link to={'/login'} style={{textDecoration:'none'}}>
                         <div className='btn btn-outline-dark mx-2' style={{fontWeight:'500'}}>LOGIN</div>
                     </Link>

@@ -35,7 +35,7 @@ function Statistics () {
     }
 
     return (
-        <div style={{marginTop:100,paddingLeft:10,width:'100%'}}>
+        <div style={{marginTop:20,paddingLeft:10,width:'100%'}}>
             <ListItem button component={Paper} elevation={5} style={{backgroundColor:'#d1cada',width:'30%'}} onClick={handleClickListItem}>
                 <ListItemText secondary={options[0]} primary={options[selectedIndex]} />
             </ListItem>

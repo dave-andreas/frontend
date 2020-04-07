@@ -84,7 +84,7 @@ function Userslist () {
     }
     
     return (
-        <div style={{marginTop:90,marginBottom:'100px',paddingRight:100,paddingLeft:100}}>
+        <div style={{marginTop:10,marginBottom:'100px',paddingRight:100,paddingLeft:100}}>
             <Modal isOpen={modinfo} toggle={()=>setmodinfo(!modinfo)}>
                 <ModalBody>{reninfo()}</ModalBody>
             </Modal>

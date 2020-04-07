@@ -170,7 +170,7 @@ function AdmModels () {
                 </Modal>
             :null}
 
-            <div style={{marginTop:90,width:'100%'}}>
+            <div style={{marginTop:10,width:'100%'}}>
                 <div className='d-flex align-items-end justify-content-end' style={{marginBottom:25}}>
                     <div style={{fontSize:'25px',marginLeft:50}}>
                         MANAGE MODELS
