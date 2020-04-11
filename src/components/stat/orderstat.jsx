@@ -1,9 +1,12 @@
 import React, {useState,useEffect} from 'react'
 import Axios from 'axios'
-import { TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, CardMedia } from '@material-ui/core'
+import { TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, CircularProgress } from '@material-ui/core'
 import { apiurl } from '../../helper/apiurl'
 
 function Orderstat () {
+    const [one,setone] = useState(true)
+    const [two,settwo] = useState(true)
+    const [three,setthree] = useState(true)
     const [total,settotal] = useState()
     const [dipesan,setdipesan] = useState()
     const [stat,setstat] = useState([])
@@ -30,15 +33,18 @@ function Orderstat () {
         .then(res=>{
             settotal(res.data.total[0].total)
             setdipesan(res.data.dipesan[0].dipesan)
+            setone(false)
             Axios.get(`${apiurl}/admin/statorder`)
             .then(res=>{
                 setstat(res.data)
                 res.data.forEach(stat=>{
                     setsumstat(prev => prev += stat.jumlah)
                 })
+                setthree(false)
                 Axios.get(`${apiurl}/admin/trafic`)
                 .then(res=>{
                     settrafic(res.data)
+                    settwo(false)
                 }).catch(err=>{
                     console.log(err)
                 })
@@ -83,7 +89,10 @@ function Orderstat () {
     return (
         <div className='d-flex' style={{marginTop:20,marginBottom:40}}>
             <div style={{width:'40%'}}>
-                <div className='my-2' style={{fontSize:25}}>Total Number</div>
+                <div className='my-2 d-flex' style={{fontSize:25}}>
+                    Total Number
+                    {one ? <CircularProgress className='ml-3' /> : null}
+                </div>
                 <TableContainer component={Paper} elevation={6}>
                     <Table size='small'>
                         <TableBody>
@@ -98,7 +107,10 @@ function Orderstat () {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <div className='my-2 mt-4' style={{fontSize:25}}>Order Traffic</div>
+                <div className='my-2 mt-4 d-flex' style={{fontSize:25}}>
+                    Order Traffic
+                    {two ? <CircularProgress className='ml-3' /> : null}
+                </div>
                 <TableContainer component={Paper} elevation={6}>
                     <Table>
                         <TableHead>
@@ -116,7 +128,10 @@ function Orderstat () {
                 </TableContainer>
             </div>
             <div className='ml-5' style={{width:'50%'}}>
-                <div className='my-2' style={{fontSize:25}}>Status Order</div>
+                <div className='my-2 d-flex' style={{fontSize:25}}>
+                    Status Order
+                    {three ? <CircularProgress className='ml-3' /> : null}
+                </div>
                 <TableContainer component={Paper} elevation={6}>
                     <Table size='small'>
                         <TableHead>

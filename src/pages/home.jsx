@@ -4,13 +4,14 @@ import Axios from 'axios';
 import {apiurl} from '../helper/apiurl'
 import {Link} from 'react-router-dom'
 
-import {Card, CardActionArea, CardContent, CardMedia, Button, Paper} from '@material-ui/core'
+import {Card, CardActionArea, CardContent, CardMedia, Button, Paper, CircularProgress} from '@material-ui/core'
 
 import Header from '../components/header'
 import Footer from '../components/footer'
 import img1 from '../gambar/e9de9cf2b79d1946eea448060305a7e4.jpg'
 
 function Home () {
+    const [load,setload] = useState(true)
     const [models,setmodels] = useState([])
     const [models1,setmodels1] = useState([])
 
@@ -20,6 +21,7 @@ function Home () {
             console.log(res.data)
             setmodels(res.data.result)
             setmodels1(res.data.result1)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -91,6 +93,9 @@ function Home () {
                     This is some dress models you can choose. The size will adjust according to your body preference. And will made with love by our tailor
                     </center>
                 </div>
+                <center>
+                    {load ? <CircularProgress/> : null}
+                </center>
                 <div className='d-flex flex-wrap justify-content-center mt-5' style={{marginLeft:'10%',marginRight:'10%'}}>
                     {rendermaterial()}
                 </div>

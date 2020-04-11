@@ -3,7 +3,7 @@ import Axios from 'axios'
 import {Link} from 'react-router-dom'
 import { apiurl } from '../../helper/apiurl'
 
-import {Paper,CardMedia,IconButton,Button} from '@material-ui/core'
+import {Paper,CardMedia,IconButton,Button,CircularProgress} from '@material-ui/core'
 import {Modal,ModalHeader,ModalBody,ModalFooter,CustomInput} from 'reactstrap'
 
 import mandiri from '../../gambar/logo-mandiri.png'
@@ -11,6 +11,7 @@ import bca from '../../gambar/logo-bca.png'
 import bri from '../../gambar/logo-bri.png'
 
 function Orderstatus () {
+    const [load,setload] = useState(true)
     const [order,setorder] = useState([])
 
     const orderstat = (stat,index) => {
@@ -69,6 +70,7 @@ function Orderstatus () {
         .then(res=>{
             console.log(res.data)
             setorder(res.data)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -267,7 +269,10 @@ function Orderstatus () {
                     <div style={{fontSize:11}}>TOTAL </div><strong>Rp {ordit.totharga}</strong>
                 </ModalFooter>
             </Modal>
-            <div style={{fontSize:25}}>YOUR TRANSACTION</div>
+            <div className='d-flex' style={{fontSize:25}}>
+                YOUR TRANSACTION
+                {load ? <CircularProgress className='ml-3' /> : null}
+            </div>
             {renorder()}
         </div>
     )

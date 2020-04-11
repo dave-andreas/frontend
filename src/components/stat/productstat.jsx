@@ -1,9 +1,12 @@
 import React, {useEffect,useState} from 'react'
 import Axios from 'axios'
-import { TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, CardMedia, FormControl, InputLabel, Select, MenuItem, TextField } from '@material-ui/core'
+import { TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, CardMedia, FormControl, InputLabel, Select, MenuItem, TextField, CircularProgress } from '@material-ui/core'
 import { apiurl } from '../../helper/apiurl'
 
 function Productstat () {
+    const [load,setload] = useState({
+        one:true, two:true
+    })
     const [sellmod,setsellmod] = useState([])
     const [pickfab,setpickfab] = useState([])
 
@@ -11,9 +14,11 @@ function Productstat () {
         Axios.get(`${apiurl}/admin/sellmod?sort=terjual&limit=10`)
         .then(res=>{
             setsellmod(res.data)
+            setload({...load, one:false})
             Axios.get(`${apiurl}/admin/pickfab`)
             .then(res=>{
                 setpickfab(res.data)
+                setload({...load, one:false, two:false})
             }).catch(err=>{
                 console.log(err)
             })
@@ -51,9 +56,11 @@ function Productstat () {
         setlimit(e.target.value)
     }
     useEffect(()=>{
+        setload({...load, one:true})
         Axios.get(`${apiurl}/admin/sellmod?sort=${sort}&limit=${limit}`)
         .then(res=>{
             setsellmod(res.data)
+            setload({...load, one:false})
         }).catch(err=>{
             console.log(err)
         })
@@ -79,7 +86,10 @@ function Productstat () {
         <div className='d-flex' style={{marginTop:20,marginBottom:40}}>
             <div style={{width:'60%'}}>
                 <div className='d-flex'>
-                    <div className='my-2' style={{fontSize:25}}>Most Popular Models</div>
+                    <div className='my-2 d-flex' style={{fontSize:25}}>
+                        Most Popular Models
+                        {load.one ? <CircularProgress className='ml-3' /> : null}
+                    </div>
                     <div className='ml-auto my-2 mr-3' style={{width:'10%'}}>
                         <FormControl style={{width:'100%'}}>
                             <TextField fullWidth type='number' name="limit" onChange={handle1} defaultValue={limit} label='Limit' />
@@ -114,7 +124,10 @@ function Productstat () {
                 </TableContainer>
             </div>
             <div className='ml-4'>
-                <div className='my-2' style={{fontSize:25}}>Most Picked Fabrics</div>
+                <div className='my-2 d-flex' style={{fontSize:25}}>
+                    Most Picked Fabrics
+                    {load.two ? <CircularProgress className='ml-3' /> : null}
+                </div>
                 <TableContainer component={Paper} elevation={6}>
                     <Table size='small'>
                         <TableHead>

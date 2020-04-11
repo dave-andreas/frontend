@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 import {Favorite} from '@material-ui/icons'
-import {Card, CardActionArea, CardContent, CardMedia, Button, IconButton} from '@material-ui/core'
+import {Card, CardActionArea, CardContent, CardMedia, Button, IconButton, CircularProgress} from '@material-ui/core'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { useTheme } from '@material-ui/core/styles'
@@ -19,6 +19,7 @@ import Footer from '../components/footer'
 import img3 from '../gambar/photo-128278505_1.jpg'
 
 function Models ({role}) {
+    const [load,setload] = useState(true)
     const [kat,setkat] = useState([])
     const [models,setmodels] = useState([])
     const [cat,setcat] = useState(0)
@@ -37,11 +38,14 @@ function Models ({role}) {
             Axios.get(`${apiurl}/admin/getkat`)
             .then(res=>{
                 setkat(res.data)
+                setload(false)
             }).catch(err=>{
                 console.log(err)
+                setload(false)
             })
         }).catch(err=>{
             console.log(err)
+            setload(false)
         })
     },[])
 
@@ -221,6 +225,9 @@ function Models ({role}) {
                 </div>
                 <input type='text' placeholder='find here' onChange={handle} style={{marginLeft:'auto'}}/>
             </div>
+            <center>
+                {load ? <CircularProgress/> : null}
+            </center>
             <div className='d-flex flex-wrap justify-content-center' style={{marginLeft:'10%',marginRight:'10%'}}>
                 {rendermaterial()}
             </div>

@@ -145,7 +145,6 @@ function Editmodel ({location}) {
         }
     }
     const saveimg = () => {
-        console.log(imgfile)
         const formdata = new FormData()
         formdata.append('image', imgfile)
         formdata.append('modelid', id)

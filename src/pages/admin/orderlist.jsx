@@ -6,10 +6,11 @@ import {apiurl} from '../../helper/apiurl'
 import {connect} from 'react-redux'
 import {filteraction} from '../../redux/action'
 
-import {Paper,Table,TableHead,TableBody,TableRow,TableCell,TableContainer, IconButton, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core'
+import {Paper,Table,TableHead,TableBody,TableRow,TableCell,TableContainer, IconButton, FormControl, InputLabel, Select, MenuItem, CircularProgress} from '@material-ui/core'
 import {Info} from '@material-ui/icons'
 
 function Orderlist ({fltr,filteraction}) {
+    const [load,setload] = useState(true)
     const [order,setorder] = useState([])
 
     useEffect(()=>{
@@ -18,6 +19,7 @@ function Orderlist ({fltr,filteraction}) {
             console.log(res.data)
             setorder(res.data.result)
             setopsi(res.data.result1)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -69,9 +71,11 @@ function Orderlist ({fltr,filteraction}) {
         // filteraction(e.target.value)
     }
     useEffect (()=>{
+        setload(true)
         Axios.get(`${apiurl}/admin/getorder?status=${status}`)
         .then(res=>{
             setorder(res.data.result)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -85,9 +89,11 @@ function Orderlist ({fltr,filteraction}) {
         settanggal(e.target.value)
     }
     useEffect (()=>{
+        setload(true)
         Axios.get(`${apiurl}/admin/cariorder?tanggal=${tanggal}`)
         .then(res=>{
             setorder(res.data)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -103,8 +109,9 @@ function Orderlist ({fltr,filteraction}) {
     return (
         <div style={{marginTop:10,marginBottom:'100px',paddingRight:80,paddingLeft:80,width:'100%'}}>
             <div className='d-flex align-items-end'>
-                <div style={{fontSize:'25px',marginBottom:'40px'}}>
+                <div className='d-flex' style={{fontSize:'25px',marginBottom:'40px'}}>
                     ORDER LIST
+                    {load ? <CircularProgress className='ml-3' /> : null}
                 </div>
                 <div className='ml-auto mr-4 mb-2' style={{width:'25%'}}>
                     <FormControl  style={{width:'100%'}}>

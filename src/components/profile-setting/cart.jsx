@@ -2,12 +2,13 @@ import React, {useState,useEffect} from 'react'
 import Axios from 'axios'
 import { apiurl } from '../../helper/apiurl'
 
-import {Paper,CardMedia,IconButton,Button,Snackbar,Slide} from '@material-ui/core'
+import {Paper,CardMedia,IconButton,Button,Snackbar,Slide,CircularProgress} from '@material-ui/core'
 import {Clear,PlaylistAddCheck} from '@material-ui/icons'
 
 import {Modal,ModalHeader,ModalFooter,ModalBody} from 'reactstrap'
 
 function Cart () {
+    const [load,setload] = useState(true)
     const [cart,setcart] = useState([])
     const [address,setaddress] = useState('')
     const [snack,setsnack] = useState({
@@ -26,6 +27,7 @@ function Cart () {
                 settotharga(prev => prev+=cart.harga)
             })
             setaddress(res.data.address[0].address)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -152,7 +154,10 @@ function Cart () {
                     <Button className='m-1' variant='contained' color='primary' onClick={()=>checkout(cart2.id,cart2.userid,cart2.harga,cart2.jumlah,cart2.bahanid,cart2.modelid)}>okay</Button>
                 </ModalFooter>
             </Modal>
-            <div style={{fontSize:25}}>YOUR CART</div>
+            <div className='d-flex' style={{fontSize:25}}>
+                YOUR CART
+                {load ? <CircularProgress className='ml-3' /> : null}
+            </div>
             {rencart()}
             {cart.length?
             <div className='d-flex justify-content-end mt-2'>

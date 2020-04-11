@@ -1,15 +1,17 @@
 import React, {useState,useEffect} from 'react'
 import Axios from 'axios'
-import { TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, CardMedia, MenuItem, Select, InputLabel, FormControl } from '@material-ui/core'
+import { TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, CardMedia, MenuItem, Select, InputLabel, FormControl, CircularProgress } from '@material-ui/core'
 import { apiurl } from '../../helper/apiurl'
 
 function Userstat () {
+    const [load,setload] = useState(true)
     const [userstat,setuserstat] = useState([])
 
     useEffect(()=>{
         Axios.get(`${apiurl}/admin/userstat?sort=username`)
         .then(res=>{
             setuserstat(res.data)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -21,9 +23,11 @@ function Userstat () {
         setsort(e.target.value)
     }
     useEffect(()=>{
+        setload(true)
         Axios.get(`${apiurl}/admin/userstat?sort=${sort}`)
         .then(res=>{
             setuserstat(res.data)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -47,7 +51,10 @@ function Userstat () {
     return (
         <div style={{marginTop:20,marginBottom:40,width:'70%'}}>
             <div className='d-flex align-items-end'>
-                <div className='my-2' style={{fontSize:25}}>Most active User</div>
+                <div className='my-2 d-flex' style={{fontSize:25}}>
+                    Most active User
+                    {load ? <CircularProgress className='ml-3' /> : null}
+                </div>
                 <div className='ml-auto my-2 mr-2' style={{width:'20%'}}>
                     <FormControl  style={{width:'100%'}}>
                         <InputLabel>Order by</InputLabel>

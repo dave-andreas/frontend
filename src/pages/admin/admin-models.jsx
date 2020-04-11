@@ -5,15 +5,17 @@ import {Link} from 'react-router-dom'
 
 import { apiurl } from '../../helper/apiurl';
 
-import {Card,CardActionArea,CardContent,CardMedia,IconButton,Button,GridList} from '@material-ui/core'
+import {Card,CardActionArea,CardContent,CardMedia,IconButton,Button,GridList,CircularProgress} from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import AddIcon from '@material-ui/icons/Add';
 
-import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
+import {Modal, ModalBody, ModalFooter, ModalHeader, CustomInput} from 'reactstrap'
 
 function AdmModels () {
+    const [load,setload] = useState(true)
+    const [add,setadd] = useState(false)
     const [models,setmodels] = useState([])
     const [kategori,setkategori] = useState([])
     const [cat,setcat] = useState(0)
@@ -31,6 +33,7 @@ function AdmModels () {
             Axios.get(`${apiurl}/admin/getkat`)
             .then(res=>{
                 setkategori(res.data)
+                setload(false)
             }).catch(err=>{
                 console.log(err)
             })
@@ -46,9 +49,11 @@ function AdmModels () {
     }
 
     useEffect (()=>{
+        setload(true)
         Axios.get(`${apiurl}/admin/getmod/${cat}`)
         .then(res=>{
             setmodels(res.data)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -109,12 +114,25 @@ function AdmModels () {
     }
 
     const addnew =()=>{
+        setadd(true)
         Axios.post(`${apiurl}/admin/addmod`, data)
         .then(res=>{
-            if(res.data.length>1){
-                setmodels(res.data)
+            if(res.data.insertId){
                 setmsg('')
-                setmodadd(!modadd)
+                const formdata = new FormData()
+                formdata.append('image', imgfile)
+                formdata.append('id', res.data.insertId)
+                Axios.post(`${apiurl}/admin/uplcov`,formdata,
+                {
+                    headers:{
+                        'Content-Type':'multipart/form-data'
+                    }
+                })
+                .then(res=>{
+                    setadd(false)
+                    setmodels(res.data)
+                    setmodadd(!modadd)
+                })
             }else{
                 setmsg(res.data.message)
             }
@@ -134,6 +152,16 @@ function AdmModels () {
         })
     }
 
+    const [imgfile,setimgfile]=useState({})
+    const handlefile = event => {
+        console.log(event.target.files[0])
+        if(event.target.files[0]){
+            setimgfile(event.target.files[0])
+        }else{
+            setimgfile({...imgfile,fileName:'no file selected',file:undefined})
+        }
+    }
+
     return (
         <div style={{width:'100%'}}>
 
@@ -145,16 +173,13 @@ function AdmModels () {
                     <select className='form-control' onChange={handler} name='kategoriid' style={{width:'100%', marginBottom:20}} >
                         {renkat()}
                     </select>
-                    {/* <div style={{width:70}} className='mx-2'>
-                        <IconButton>
-                            <AddIcon style={{fontSize:90,margin:-13}} />
-                        </IconButton>
-                    </div> */}
+                    <CustomInput type="file" id="image" name="customFile" className='mt-1 mr-2' onChange={handlefile} />
                 </ModalBody>
                 <ModalFooter>
                     <div style={{marginRight:30,color:'red',fontSize:'12px'}}>
                         {msg}
                     </div>
+                    {add ? <CircularProgress size={20} thickness={6} className='mr-2' /> : null}
                     <Button variant='contained' color='primary' onClick={()=>addnew()}>add new</Button>
                 </ModalFooter>
             </Modal>
@@ -172,8 +197,9 @@ function AdmModels () {
 
             <div style={{marginTop:10,width:'100%'}}>
                 <div className='d-flex align-items-end justify-content-end' style={{marginBottom:25}}>
-                    <div style={{fontSize:'25px',marginLeft:50}}>
+                    <div style={{fontSize:'25px',marginLeft:50,display:'flex'}}>
                         MANAGE MODELS
+                        {load ? <CircularProgress className='ml-3' /> : null}
                     </div>
                     <div className='d-flex ml-auto mr-4'>
                         <div className='cat' onClick={()=>setcat(0)}>

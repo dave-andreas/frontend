@@ -3,18 +3,20 @@ import { useEffect,useState } from 'react';
 import Axios from 'axios';
 import { apiurl } from '../../helper/apiurl';
 
-import {TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, IconButton, Button} from '@material-ui/core'
+import {TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, IconButton, CircularProgress} from '@material-ui/core'
 import {Info} from '@material-ui/icons'
 
 import {Modal,ModalBody} from 'reactstrap'
 
 function Userslist () {
+    const [load,setload] = useState(true)
     const [users,setusers] = useState([])
 
     useEffect (()=>{
         Axios.get(`${apiurl}/admin/getusers`)
         .then(res=>{
             setusers(res.data)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -88,8 +90,9 @@ function Userslist () {
             <Modal isOpen={modinfo} toggle={()=>setmodinfo(!modinfo)}>
                 <ModalBody>{reninfo()}</ModalBody>
             </Modal>
-            <div style={{fontSize:'25px',marginBottom:'20px'}}>
+            <div className='d-flex' style={{fontSize:'25px',marginBottom:'20px'}}>
                 MANAGE USERS
+                {load ? <CircularProgress className='ml-3' /> : null}
             </div>
             <TableContainer component={Paper} elevation={6}>
                 <Table style={{minWidth:700}} size='small'>

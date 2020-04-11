@@ -3,12 +3,13 @@ import { useEffect,useState } from 'react';
 import Axios from 'axios';
 import { apiurl } from '../../helper/apiurl';
 
-import {TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, IconButton, Button} from '@material-ui/core'
+import {TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, IconButton, Button, CircularProgress} from '@material-ui/core'
 import {Edit, Delete} from '@material-ui/icons'
 
 import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap'
 
 function AdmFabrics () {
+    const [load,setload] = useState(true)
     const [fabrics,setfabrics] = useState ([])
 
     const [modedit,setmodedit] = useState (false)
@@ -25,8 +26,8 @@ function AdmFabrics () {
     useEffect (()=>{
         Axios.get(`${apiurl}/admin/getfab`)
         .then(res=>{
-            // console.log(res.data)
             setfabrics(res.data)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -37,10 +38,11 @@ function AdmFabrics () {
         setcari(e.target.value)
     }
     useEffect (()=>{
+        setload(true)
         Axios.get(`${apiurl}/admin/carifab?cari=${cari}`)
         .then(res=>{
-            // console.log(res.data)
             setfabrics(res.data)
+            setload(false)
         }).catch(err=>{
             console.log(err)
         })
@@ -163,8 +165,9 @@ function AdmFabrics () {
             : null}
             
             <div style={{marginTop:10,marginBottom:'100px',paddingRight:100,paddingLeft:100}}>
-                <div style={{fontSize:'25px',marginBottom:'20px'}}>
+                <div style={{fontSize:'25px',marginBottom:'20px',display:'flex'}}>
                     MANAGE FABRICS
+                    {load ? <CircularProgress className='ml-3' /> : null}
                 </div>
                 <input className='form-control mb-2' type='text' placeholder='find fabric ...' onChange={handle} />
                 <TableContainer component={Paper} elevation={6}>

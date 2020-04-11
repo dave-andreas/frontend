@@ -28,7 +28,7 @@ function Ordering ({actvstep,stepaction}) {
     return (
         <div>
             <Header />
-            <div className='d-flex flex-column mx-5' style={{height:575,border:'solid 1px'}}>
+            <div className='d-flex flex-column mx-5' style={{height:575}}>
                 <div className='d-flex justify-content-center'>
                     {actvstep === steps.length ? (
                         <div className='d-flex flex-column mt-5' style={{width:'50%'}}>
